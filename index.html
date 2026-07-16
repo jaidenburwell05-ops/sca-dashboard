@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>She Creates Academy — Sales Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+(function(){document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.page').forEach(function(p){if(!p.classList.contains('active'))p.style.display='none';});
+  document.querySelectorAll('.panel').forEach(function(p){if(!p.classList.contains('active'))p.style.display='none';});
+});})();
+</script>
+<style>
+:root{
+  --bg:#0d0810;--card:#18101a;--card2:#1f1424;--border:rgba(255,180,200,0.1);
+  --text:#f5eef8;--muted:#8a7090;
+  --rose:#e8729a;--lavender:#c084b8;--blush:#f4b8cc;--mauve:#9b72cf;
+  --coral:#f4836a;--mint:#7ecfb0;--gold:#f0c070;
+  --green:var(--rose);--blue:var(--lavender);--amber:var(--coral);--red:#f06080;--purple:var(--mauve);
+  --r:14px;--ri:8px
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 40% at 30% 0%,rgba(232,114,154,0.07),transparent),radial-gradient(ellipse 50% 30% at 80% 100%,rgba(192,132,184,0.05),transparent);pointer-events:none;z-index:0}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--card2);border-radius:4px}
+.header{background:rgba(13,8,16,0.95);border-bottom:.5px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:100;backdrop-filter:blur(16px);min-height:72px}
+.logo-wrap{display:flex;align-items:center;gap:14px}
+.logo-mark{width:44px;height:44px;background:linear-gradient(135deg,var(--rose),var(--lavender));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 24px rgba(232,114,154,0.3)}
+.logo-text h1{font-size:19px;font-weight:800;letter-spacing:-0.5px}
+.logo-text h1 span{background:linear-gradient(135deg,var(--rose),var(--lavender));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-text p{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+.header-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.filter-group{display:flex;align-items:center;gap:6px}
+.filter-group label{font-size:11px;color:var(--muted);white-space:nowrap}
+input[type=date],select{background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:7px 11px;border-radius:var(--ri);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer}
+.btn{background:var(--rose);color:#fff;border:none;padding:7px 18px;border-radius:var(--ri);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer}
+.live{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--rose)}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--rose);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.status-bar{padding:10px 32px;font-size:12px;display:none}
+.status-bar.error{background:rgba(240,96,128,0.08);border-bottom:.5px solid rgba(240,96,128,0.2);color:var(--red);display:block}
+.nav-bar{background:var(--card);border-bottom:.5px solid var(--border);display:flex;padding:0 32px;overflow-x:auto}
+.nav-tab{padding:14px 20px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s}
+.nav-tab:hover{color:var(--text)}.nav-tab.active{color:var(--rose);border-bottom-color:var(--rose)}
+.page{display:none !important}.page.active{display:block !important}
+.panel{display:none !important}.panel.active{display:block !important}
+.content{padding:24px 32px;max-width:1700px;margin:0 auto;position:relative;z-index:1}
+.section{margin-bottom:28px}
+.sec-title{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-title::before{content:'';width:3px;height:12px;border-radius:2px;background:currentColor}
+.sec-title.rose{color:var(--rose)}.sec-title.lavender{color:var(--lavender)}.sec-title.blush{color:var(--blush)}.sec-title.coral{color:var(--coral)}.sec-title.mauve{color:var(--mauve)}.sec-title.gold{color:var(--gold)}.sec-title.mint{color:var(--mint)}
+.card{background:var(--card);border:.5px solid var(--border);border-radius:var(--r);padding:20px}
+.card.rl{border-left:3px solid var(--rose)}.card.ll{border-left:3px solid var(--lavender)}.card.cl{border-left:3px solid var(--coral)}.card.ml{border-left:3px solid var(--mauve)}.card.gl{border-left:3px solid var(--gold)}.card.mnl{border-left:3px solid var(--mint)}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:14px}
+.kpi{background:var(--card);border:.5px solid var(--border);border-radius:var(--r);padding:18px;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.r::after{background:linear-gradient(90deg,var(--rose),transparent)}
+.kpi.l::after{background:linear-gradient(90deg,var(--lavender),transparent)}
+.kpi.c::after{background:linear-gradient(90deg,var(--coral),transparent)}
+.kpi.m::after{background:linear-gradient(90deg,var(--mauve),transparent)}
+.kpi.g::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.kpi.mn::after{background:linear-gradient(90deg,var(--mint),transparent)}
+.kpi-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.kpi-val{font-size:28px;font-weight:800;line-height:1;margin-bottom:4px;letter-spacing:-0.5px}
+.kpi.r .kpi-val{color:var(--rose)}.kpi.l .kpi-val{color:var(--lavender)}.kpi.c .kpi-val{color:var(--coral)}.kpi.m .kpi-val{color:var(--mauve)}.kpi.g .kpi-val{color:var(--gold)}.kpi.mn .kpi-val{color:var(--mint)}
+.kpi-sub{font-size:10px;color:var(--muted)}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.br{background:rgba(232,114,154,.12);color:var(--rose);border:.5px solid rgba(232,114,154,.25)}
+.bl{background:rgba(192,132,184,.12);color:var(--lavender);border:.5px solid rgba(192,132,184,.25)}
+.bc{background:rgba(244,131,106,.12);color:var(--coral);border:.5px solid rgba(244,131,106,.25)}
+.bm{background:rgba(155,114,207,.12);color:var(--mauve);border:.5px solid rgba(155,114,207,.25)}
+.bg{background:rgba(240,192,112,.12);color:var(--gold);border:.5px solid rgba(240,192,112,.25)}
+.bmn{background:rgba(126,207,176,.12);color:var(--mint);border:.5px solid rgba(126,207,176,.25)}
+.bred{background:rgba(240,96,128,.1);color:var(--red);border:.5px solid rgba(240,96,128,.2)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:9px 12px;border-bottom:.5px solid var(--border);font-weight:600;white-space:nowrap}
+td{padding:11px 12px;border-bottom:.5px solid rgba(255,180,200,.04);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(232,114,154,.04)}
+.tr-tot td{background:var(--card2);font-weight:700;border-top:.5px solid var(--border)}
+.tr-flag td{background:rgba(240,96,128,.04)}
+.gb-wrap{min-width:100px}
+.gb-track{height:5px;background:rgba(255,180,200,.08);border-radius:3px;overflow:hidden;margin-bottom:3px}
+.gb-fill{height:100%;border-radius:3px;transition:width .8s ease}
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ch{position:relative;height:220px}
+.lb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.lb-card{background:var(--card);border:.5px solid var(--border);border-radius:var(--r);overflow:hidden}
+.lb-header{padding:14px 18px;border-bottom:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.lb-title{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.lb-row{padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:.5px solid rgba(255,180,200,.04)}
+.lb-row:last-child{border-bottom:none}
+.lb-rank{font-size:18px;font-weight:800;width:28px;flex-shrink:0;text-align:center}
+.lb-rank.gold{color:#f5c518}.lb-rank.silver{color:#c0c0c0}.lb-rank.bronze{color:#cd7f32}.lb-rank.dim{color:var(--muted)}
+.lb-name{font-weight:600;font-size:13px;flex:1}
+.lb-val{font-size:13px;font-weight:700;text-align:right;min-width:60px}
+.lb-bar-wrap{flex:1;margin:0 10px}
+.lb-bar-track{height:4px;background:rgba(255,180,200,.08);border-radius:2px;overflow:hidden}
+.lb-bar-fill{height:100%;border-radius:2px;transition:width .8s ease}
+.panel-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.panel-tabs{display:flex;background:var(--card2);border:.5px solid var(--border);border-radius:8px;overflow:hidden}
+.panel-tab{padding:8px 18px;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;white-space:nowrap}
+.panel-tab.active{background:var(--card);color:var(--rose)}
+.sdr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.sdr-card{background:var(--card);border:.5px solid var(--border);border-radius:var(--r);overflow:hidden}
+.sdr-header{padding:14px 16px;border-bottom:.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.sdr-name{font-weight:700;font-size:14px}
+.sdr-body{padding:14px 16px}
+.sdr-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:.5px solid rgba(255,180,200,.06);font-size:12px}
+.sdr-row:last-child{border-bottom:none}
+.sdr-key{color:var(--muted)}.sdr-val{font-weight:600}
+.miss-badge{background:rgba(240,96,128,.1);color:var(--red);border:.5px solid rgba(240,96,128,.2);padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600}
+.hit-badge{background:rgba(126,207,176,.1);color:var(--mint);border:.5px solid rgba(126,207,176,.2);padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600}
+.bb-bubble{background:linear-gradient(135deg,rgba(244,131,106,.1),rgba(240,192,112,.06));border:.5px solid rgba(244,131,106,.25);border-radius:14px;padding:18px 22px;display:flex;align-items:center;gap:18px}
+.bb-icon{font-size:28px;flex-shrink:0}
+.bb-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.bb-val{font-size:20px;font-weight:800;color:var(--coral)}
+.bb-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.rs-card{background:var(--card2);border:.5px solid var(--border);border-left:3px solid var(--coral);border-radius:var(--r);padding:12px 16px;margin-bottom:8px}
+.rs-lead{font-weight:600;font-size:13px}
+.rs-meta{font-size:11px;color:var(--muted);margin-top:3px}
+.pp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.pp-card{background:var(--card2);border:.5px solid var(--border);border-radius:var(--r);padding:14px}
+.pp-lead{font-weight:700;font-size:13px;margin-bottom:8px}
+.pp-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px}
+.pp-k{color:var(--muted)}
+.pp-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.offer-tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700}
+.offer-3k{background:rgba(232,114,154,.15);color:var(--rose);border:.5px solid rgba(232,114,154,.3)}
+.offer-1k5{background:rgba(192,132,184,.15);color:var(--lavender);border:.5px solid rgba(192,132,184,.3)}
+.val-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:.5px solid rgba(255,180,200,.06);font-size:12px}
+.val-row:last-child{border-bottom:none}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;color:var(--muted);gap:8px;text-align:center;font-size:12px}
+.spin{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--rose);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading{display:flex;align-items:center;justify-content:center;padding:32px;gap:10px;color:var(--muted)}
+@media(max-width:900px){.charts-row,.lb-grid,.sdr-grid{grid-template-columns:1fr}.header,.content{padding:12px 16px}.nav-bar{padding:0 16px}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo-wrap">
+    <div class="logo-mark">✨</div>
+    <div class="logo-text">
+      <h1>SHE CREATES <span>ACADEMY</span></h1>
+      <p>Sales Dashboard · EOD · EOC · Setter · Validation</p>
+    </div>
+  </div>
+  <div class="header-controls">
+    <div class="filter-group"><label>From</label><input type="date" id="df"></div>
+    <div class="filter-group"><label>To</label><input type="date" id="dt"></div>
+    <button class="btn" onclick="applyFilters()">Apply</button>
+    <div class="filter-group">
+      <label>Rep</label>
+      <select id="rf" onchange="applyFilters()">
+        <option value="all">All Reps</option>
+        <optgroup label="Closers" id="closerOpts"></optgroup>
+        <optgroup label="Setters" id="setterOpts"></optgroup>
+      </select>
+    </div>
+    <div class="live"><div class="pulse"></div><span id="upd">—</span></div>
+  </div>
+</header>
+
+<div id="statusBar" class="status-bar"></div>
+
+<nav class="nav-bar">
+  <div class="nav-tab active" onclick="switchPage('main',this)">💗 Dashboard</div>
+  <div class="nav-tab" onclick="switchPage('offers',this)">💰 Offer Split</div>
+  <div class="nav-tab" onclick="switchPage('setter',this)">📞 Setter Stats</div>
+  <div class="nav-tab" onclick="switchPage('resched',this)">📅 Rescheduling</div>
+  <div class="nav-tab" onclick="switchPage('validation',this)">⚠️ Data Validation</div>
+</nav>
+
+<!-- ══════ MAIN DASHBOARD ══════ -->
+<div id="page-main" class="page active">
+<div class="content">
+
+  <div class="section">
+    <div class="sec-title rose">Key Metrics</div>
+    <div class="kpi-grid">
+      <div class="kpi r"><div class="kpi-lbl">Cash Collected</div><div class="kpi-val" id="k-cash">—</div><div class="kpi-sub">All closes</div></div>
+      <div class="kpi l"><div class="kpi-lbl">Rev Generated</div><div class="kpi-val" id="k-rev">—</div><div class="kpi-sub">Total pipeline</div></div>
+      <div class="kpi m"><div class="kpi-lbl">Deals Closed</div><div class="kpi-val" id="k-deals">—</div><div class="kpi-sub">Paid calls</div></div>
+      <div class="kpi mn"><div class="kpi-lbl">Show Rate</div><div class="kpi-val" id="k-show">—</div><div class="kpi-sub">Goal: 85%</div></div>
+      <div class="kpi r"><div class="kpi-lbl">Close Rate</div><div class="kpi-val" id="k-close">—</div><div class="kpi-sub">Goal: 30%</div></div>
+      <div class="kpi g"><div class="kpi-lbl">$3K Closes</div><div class="kpi-val" id="k-3k">—</div><div class="kpi-sub">Full price</div></div>
+      <div class="kpi l"><div class="kpi-lbl">$1.5K Closes</div><div class="kpi-val" id="k-1k5">—</div><div class="kpi-sub">Downsell</div></div>
+      <div class="kpi c"><div class="kpi-lbl">AOV</div><div class="kpi-val" id="k-aov">—</div><div class="kpi-sub">Avg order value</div></div>
+      <div class="kpi m"><div class="kpi-lbl">Cash Per Set</div><div class="kpi-val" id="k-cps">—</div><div class="kpi-sub">Cash ÷ EOC rows</div></div>
+      <div class="kpi c"><div class="kpi-lbl">No Shows</div><div class="kpi-val" id="k-noshow">—</div><div class="kpi-sub">Missed calls</div></div>
+      <div class="kpi mn"><div class="kpi-lbl">Rescheduled</div><div class="kpi-val" id="k-resched">—</div><div class="kpi-sub">Follow-up booked</div></div>
+      <div class="kpi r"><div class="kpi-lbl">Data Flags</div><div class="kpi-val" id="k-flags">—</div><div class="kpi-sub">Issues detected</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title rose">Revenue Trend</div>
+    <div class="card"><div style="position:relative;height:130px"><canvas id="trendChart"></canvas></div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title gold">Leaderboard</div>
+    <div class="lb-grid" id="lbSection"><div class="loading"><div class="spin"></div></div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title rose">Closer Performance</div>
+    <div class="card rl"><div class="tw"><table>
+      <thead><tr><th>Closer</th><th>Scheduled</th><th>Shown</th><th>Offers</th><th>Closed</th><th>Cash</th><th>Rev</th><th>Show%</th><th>Close Rate vs 30%</th></tr></thead>
+      <tbody id="ctBody"><tr><td colspan="9"><div class="loading"><div class="spin"></div></div></td></tr></tbody>
+    </table></div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title lavender">Setter Performance</div>
+    <div class="card ll"><div class="tw"><table>
+      <thead><tr><th>Setter</th><th>Sets</th><th>Shown</th><th>Closed</th><th>Cash</th><th>Rev</th><th>Set→Close%</th><th>Show Rate vs 85%</th></tr></thead>
+      <tbody id="stBody"><tr><td colspan="8"><div class="loading"><div class="spin"></div></div></td></tr></tbody>
+    </table></div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title lavender">EOC Reports</div>
+    <div class="card ll">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="text" id="eocSearch" placeholder="Search lead, closer, setter..." oninput="searchEOC()" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;width:250px">
+          <span id="eocCount" style="font-size:11px;color:var(--muted)"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button onclick="eocPage(-1)" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:5px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">← Prev</button>
+          <span id="eocPageLabel" style="font-size:11px;color:var(--muted);white-space:nowrap">Page 1</span>
+          <button onclick="eocPage(1)" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:5px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">Next →</button>
+        </div>
+      </div>
+      <div class="tw"><table>
+        <thead><tr><th></th><th>Lead Email</th><th>Closer</th><th>Setter</th><th>Showed</th><th>Offer Made</th><th>Cash</th><th>Rev</th><th>Offer Pitched</th><th>Outcome</th></tr></thead>
+        <tbody id="eocBody"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title rose">Charts</div>
+    <div class="charts-row">
+      <div class="card">
+        <div style="font-size:12px;font-weight:700;margin-bottom:3px">Cash by Closer</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:14px">Revenue per closer</div>
+        <div class="ch"><canvas id="revChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div style="font-size:12px;font-weight:700;margin-bottom:3px">Show Rate — All Reps</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:14px">Mint ≥85% · Coral 70–84% · Red &lt;70%</div>
+        <div class="ch"><canvas id="showChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title rose">Commissions</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="card rl">
+        <div style="font-size:12px;font-weight:600;margin-bottom:3px">Closer Commissions <span style="color:var(--rose);font-size:11px">10% of cash</span></div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:10px">
+          <thead><tr><th style="text-align:left;font-size:9px;letter-spacing:1px;color:var(--muted);padding:6px 8px;border-bottom:.5px solid var(--border)">Closer</th><th style="text-align:right;font-size:9px;letter-spacing:1px;color:var(--muted);padding:6px 8px;border-bottom:.5px solid var(--border)">Cash</th><th style="text-align:right;font-size:9px;letter-spacing:1px;color:var(--muted);padding:6px 8px;border-bottom:.5px solid var(--border)">Comm</th></tr></thead>
+          <tbody id="closerCommBody"></tbody>
+        </table>
+      </div>
+      <div class="card ll">
+        <div style="font-size:12px;font-weight:600;margin-bottom:3px">Setter Commissions <span style="color:var(--lavender);font-size:11px">5% of cash on sets</span></div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:10px">
+          <thead><tr><th style="text-align:left;font-size:9px;letter-spacing:1px;color:var(--muted);padding:6px 8px;border-bottom:.5px solid var(--border)">Setter</th><th style="text-align:right;font-size:9px;letter-spacing:1px;color:var(--muted);padding:6px 8px;border-bottom:.5px solid var(--border)">Cash</th><th style="text-align:right;font-size:9px;letter-spacing:1px;color:var(--muted);padding:6px 8px;border-bottom:.5px solid var(--border)">Comm</th></tr></thead>
+          <tbody id="setterCommBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title mauve">Post Booking Pipeline</div>
+    <div class="pp-grid" id="ppSection"><div class="loading"><div class="spin"></div></div></div>
+  </div>
+
+</div>
+</div><!-- /page-main -->
+
+<!-- ══════ OFFER SPLIT ══════ -->
+<div id="page-offers" class="page" style="display:none">
+<div class="content">
+
+  <div class="section">
+    <div class="sec-title rose">Offer Performance</div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+      <div class="kpi r"><div class="kpi-lbl">$3,000 Closes</div><div class="kpi-val" id="of-3k-n">—</div><div class="kpi-sub" id="of-3k-cash">$0 collected</div></div>
+      <div class="kpi l"><div class="kpi-lbl">$1,500 Downsell</div><div class="kpi-val" id="of-1k5-n">—</div><div class="kpi-sub" id="of-1k5-cash">$0 collected</div></div>
+      <div class="kpi mn"><div class="kpi-lbl">Downsell Rate</div><div class="kpi-val" id="of-ds-rate">—</div><div class="kpi-sub">% that downsold</div></div>
+      <div class="kpi g"><div class="kpi-lbl">Avg Deal Size</div><div class="kpi-val" id="of-avg">—</div><div class="kpi-sub">Blended AOV</div></div>
+    </div>
+  </div>
+
+  <div class="charts-row" style="margin-bottom:28px">
+    <div class="card rl">
+      <div style="font-size:12px;font-weight:700;margin-bottom:3px">Offer Split — Closes</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:14px">$3K vs $1.5K by count</div>
+      <div class="ch"><canvas id="offerPieChart"></canvas></div>
+    </div>
+    <div class="card ll">
+      <div style="font-size:12px;font-weight:700;margin-bottom:3px">Cash by Offer</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:14px">Revenue contribution</div>
+      <div class="ch"><canvas id="offerCashChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title rose">Offer Reference</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="card" style="border-left:3px solid var(--rose)">
+        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose);margin-bottom:8px">Main Offer — $3,000</div>
+        <div style="font-weight:700;font-size:16px;margin-bottom:6px">She Creates Academy</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7">Full program access for women content creators. Brand monetization, content strategy, deal flow, and community access.</div>
+        <div style="margin-top:12px;font-size:11px;color:var(--rose)">Primary close. Lead with this every time.</div>
+      </div>
+      <div class="card" style="border-left:3px solid var(--lavender)">
+        <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--lavender);margin-bottom:8px">Downsell — $1,500</div>
+        <div style="font-weight:700;font-size:16px;margin-bottom:6px">SCA Curriculum Only</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7">Course curriculum access only. No live coaching, no community, no brand deal support.</div>
+        <div style="margin-top:12px;font-size:11px;color:var(--lavender)">Only offer if $3K is a hard no. Track downsell rate closely.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title gold">Closed Deals — Full List</div>
+    <div class="card gl"><div class="tw"><table>
+      <thead><tr><th>Lead</th><th>Closer</th><th>Setter</th><th>Offer</th><th>Cash</th><th>Rev</th><th>Date</th></tr></thead>
+      <tbody id="offerTable"></tbody>
+    </table></div></div>
+  </div>
+
+</div>
+</div><!-- /page-offers -->
+
+<!-- ══════ SETTER STATS ══════ -->
+<div id="page-setter" class="page" style="display:none">
+<div class="content">
+
+  <div class="section">
+    <div class="sec-title coral">Top Bottleneck</div>
+    <div id="topBottleneck"><div class="loading"><div class="spin"></div></div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title lavender">SDR KPIs</div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
+      <div class="kpi l"><div class="kpi-lbl">Total Sets</div><div class="kpi-val" id="ss-sets">—</div></div>
+      <div class="kpi r"><div class="kpi-lbl">Top SDR</div><div class="kpi-val" id="ss-top" style="font-size:18px">—</div></div>
+      <div class="kpi mn"><div class="kpi-lbl">Avg Dials/Day</div><div class="kpi-val" id="ss-dials">—</div><div class="kpi-sub">KPI: 200/day</div></div>
+      <div class="kpi c"><div class="kpi-lbl">Show Rate</div><div class="kpi-val" id="ss-show">—</div><div class="kpi-sub">Goal: 85%</div></div>
+      <div class="kpi r"><div class="kpi-lbl">Cash from Sets</div><div class="kpi-val" id="ss-cash">—</div></div>
+      <div class="kpi m"><div class="kpi-lbl">Missed KPI Days</div><div class="kpi-val" id="ss-missed">—</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title lavender">SDR Cards</div>
+    <div class="sdr-grid" id="sdrCards"><div class="loading"><div class="spin"></div></div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title coral">EOD Setter Reports</div>
+    <div class="card cl"><div class="tw"><table>
+      <thead><tr><th>Date</th><th>Rep</th><th>Dials</th><th>KPI</th><th>Sets</th><th>Shows</th><th>Closes</th><th>Cash</th><th>Bottleneck</th></tr></thead>
+      <tbody id="eodSetterTable"></tbody>
+    </table></div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title mauve">BOD Reports</div>
+    <div class="card ml"><div class="tw"><table>
+      <thead><tr><th>Date</th><th>Rep</th><th>Goal Sets</th><th>Sets Closed</th><th>Time Blocked</th><th>Top 3 Goals</th><th>How To Get There</th></tr></thead>
+      <tbody id="bodTable"></tbody>
+    </table></div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title lavender">Follow-Ups</div>
+    <div class="card ll">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="text" id="fuSearch" placeholder="Search lead, rep..." oninput="searchFU()" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;width:220px">
+          <span id="fuCount" style="font-size:11px;color:var(--muted)"></span>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button onclick="fuPage(-1)" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:5px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">← Prev</button>
+          <span id="fuPageLabel" style="font-size:11px;color:var(--muted);white-space:nowrap;align-self:center">Page 1</span>
+          <button onclick="fuPage(1)" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:5px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">Next →</button>
+        </div>
+      </div>
+      <div class="tw"><table>
+        <thead><tr><th>Rep</th><th>Lead Name</th><th>Description</th><th>Follow-Up Date</th><th>Submitted</th></tr></thead>
+        <tbody id="fuBody"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /page-setter -->
+
+<!-- ══════ RESCHEDULING ══════ -->
+<div id="page-resched" class="page" style="display:none">
+<div class="content">
+
+  <div class="panel-nav">
+    <div class="panel-tabs">
+      <div class="panel-tab active" onclick="switchPanel('resched','rs',this)">📅 Rescheduling Tracker</div>
+      <div class="panel-tab" onclick="switchPanel('resched','closer-eod',this)">📋 Closer EOD</div>
+    </div>
+    <span id="rsFlipper" style="font-size:11px;color:var(--muted)"></span>
+  </div>
+
+  <div id="resched-rs" class="panel active">
+    <div class="section">
+      <div class="sec-title coral">Rescheduling Tracker</div>
+      <div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-bottom:20px">
+        <div class="kpi c"><div class="kpi-lbl">Total Rescheduled</div><div class="kpi-val" id="rs-total">—</div></div>
+        <div class="kpi mn"><div class="kpi-lbl">Showed After RS</div><div class="kpi-val" id="rs-showed">—</div></div>
+        <div class="kpi r"><div class="kpi-lbl">Closed After RS</div><div class="kpi-val" id="rs-closed">—</div></div>
+        <div class="kpi l"><div class="kpi-lbl">RS→Close Rate</div><div class="kpi-val" id="rs-rate">—</div></div>
+        <div class="kpi m"><div class="kpi-lbl">Still Pending</div><div class="kpi-val" id="rs-pending">—</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <div class="card cl"><div style="font-size:12px;font-weight:700;margin-bottom:14px">RS Outcomes</div><div style="position:relative;height:180px"><canvas id="rsChart"></canvas></div></div>
+        <div class="card cl"><div style="font-size:12px;font-weight:700;margin-bottom:14px">Rescheduled by Setter</div><div style="position:relative;height:180px"><canvas id="rsSetterChart"></canvas></div></div>
+      </div>
+      <div class="card cl">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <input type="text" id="rsSearch" placeholder="Search lead or closer..." oninput="filterResched()" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;width:220px">
+          <span id="rsCount" style="font-size:11px;color:var(--muted)"></span>
+        </div>
+        <div id="rescheduledList"><div class="loading"><div class="spin"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="resched-closer-eod" class="panel">
+    <div class="section">
+      <div class="sec-title rose">Closer EOD Reports</div>
+      <div class="card rl"><div class="tw"><table>
+        <thead><tr><th>Date</th><th>Rep</th><th>Dials</th><th>Calls Booked</th><th>Showed</th><th>Closed</th><th>Cash</th><th>Rev</th><th>Struggling With</th><th>Objections</th></tr></thead>
+        <tbody id="clsrEodTable"></tbody>
+      </table></div></div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /page-resched -->
+
+<!-- ══════ DATA VALIDATION ══════ -->
+<div id="page-validation" class="page" style="display:none">
+<div class="content">
+
+  <div class="panel-nav">
+    <div class="panel-tabs">
+      <div class="panel-tab active" onclick="switchPanel('validation','overview',this)">📊 Overview</div>
+      <div class="panel-tab" onclick="switchPanel('validation','offernc',this)">⚠️ Offer / No Cash</div>
+      <div class="panel-tab" onclick="switchPanel('validation','mismatch',this)">💰 Cash Mismatch</div>
+      <div class="panel-tab" onclick="switchPanel('validation','missing',this)">📋 Missing Data</div>
+    </div>
+    <span id="valFlipper" style="font-size:11px;color:var(--muted)"></span>
+  </div>
+
+  <div id="validation-overview" class="panel active">
+    <div class="section">
+      <div class="sec-title coral">Validation Overview</div>
+      <div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:24px">
+        <div class="kpi c"><div class="kpi-lbl">Total Flags</div><div class="kpi-val" id="vp-flags">—</div></div>
+        <div class="kpi c"><div class="kpi-lbl">Offer / No Cash</div><div class="kpi-val" id="vp-offernocash">—</div></div>
+        <div class="kpi l"><div class="kpi-lbl">Cash Mismatch</div><div class="kpi-val" id="vp-mismatch">—</div></div>
+        <div class="kpi m"><div class="kpi-lbl">Missing Outcome</div><div class="kpi-val" id="vp-nooutcome">—</div></div>
+        <div class="kpi mn"><div class="kpi-lbl">Clean Rows</div><div class="kpi-val" id="vp-clean">—</div></div>
+      </div>
+      <div class="card cl" style="position:relative;height:240px"><canvas id="valOverviewChart"></canvas></div>
+    </div>
+  </div>
+
+  <div id="validation-offernc" class="panel">
+    <div class="section">
+      <div class="sec-title coral">Offer Made / $0 Cash</div>
+      <div class="card cl" id="val-offernocash-list"></div>
+    </div>
+  </div>
+
+  <div id="validation-mismatch" class="panel">
+    <div class="section">
+      <div class="sec-title lavender">EOC vs EOD Cash Mismatch</div>
+      <div class="card ll" id="val-mismatch-list"></div>
+    </div>
+  </div>
+
+  <div id="validation-missing" class="panel">
+    <div class="section">
+      <div class="sec-title mauve">Missing Data</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="card ml"><div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mauve);margin-bottom:12px">📋 Missing Outcome</div><div id="val-nooutcome-list"></div></div>
+        <div class="card ll"><div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--lavender);margin-bottom:12px">👤 Missing Rep</div><div id="val-norep-list"></div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /page-validation -->
+
+<script>
+const SID='1slHyhPeWvGge876w9xC1oQ8Ml1ZO2FD1vlxVJcrx47s';
+let CLOSERS=[],SETTERS=[];
+let D={eoc:[],eodC:[],eodS:[],pb:[],fu:[],bod:[]};
+let F={eoc:[],eodC:[],eodS:[],pb:[],fu:[],bod:[]};
+let charts={};
+let eocPage_=1,eocFiltered_=[],fuPage_=1,fuFiltered_=[];
+const EOC_PS=6,FU_PS=6;
+
+function switchPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');p.style.display='none';});
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  const t=document.getElementById('page-'+id);
+  if(t){t.classList.add('active');t.style.display='block';}
+  if(el)el.classList.add('active');
+}
+function switchPanel(pid,panelId,el){
+  const pg=document.getElementById('page-'+pid);if(!pg)return;
+  pg.querySelectorAll('.panel').forEach(p=>{p.classList.remove('active');p.style.display='none';});
+  pg.querySelectorAll('.panel-tab').forEach(t=>t.classList.remove('active'));
+  const pn=document.getElementById(pid+'-'+panelId);
+  if(pn){pn.classList.add('active');pn.style.display='block';}
+  if(el)el.classList.add('active');
+}
+
+async function gviz(sheet){
+  try{
+    const url=`https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}`;
+    const r=await fetch(url);const t=await r.text();
+    const s=t.indexOf('{'),e=t.lastIndexOf('}');
+    if(s===-1||e===-1)return[];
+    const j=JSON.parse(t.substring(s,e+1));
+    if(!j.table||!j.table.rows)return[];
+    const cols=j.table.cols.map(c=>c.label||'');
+    return j.table.rows.filter(r=>r.c&&r.c.some(c=>c&&c.v!=null)).map(row=>{
+      const o={};row.c.forEach((c,i)=>{o[cols[i]]=c?(c.f||c.v):null;});return o;
+    });
+  }catch(e){return[];}
+}
+
+async function loadAll(){
+  document.getElementById('upd').textContent='Loading...';
+  document.getElementById('statusBar').style.display='none';
+  try{
+    // Form Responses 1=FollowUp, 2=EOC, 3=EOD Closer, 4=Post Booking, 5=BOD
+    const [fu,eoc,eodC,pb,bod]=await Promise.all([
+      gviz('Form Responses 1'),
+      gviz('Form Responses 2'),
+      gviz('Form Responses 3'),
+      gviz('Form Responses 4'),
+      gviz('Form Responses 5'),
+    ]);
+    // EOD Setter — try common names
+    let eodS=[];
+    for(const name of ['SDR EOD','Setter EOD','EOD Setter','SDR Daily','Form Responses 6']){
+      const res=await gviz(name);
+      if(res.length){eodS=res;break;}
+    }
+    D={eoc,eodC,eodS,pb,fu,bod};
+
+    // Auto-detect reps
+    const closerSet=new Set(),setterSet=new Set();
+    eoc.forEach(r=>{
+      const c=r['Closer']||r['Closer Name']||r['Booked to']||'';
+      const s=r['Setter']||r['Setter Name']||r['Set by']||'';
+      if(c&&c.trim())closerSet.add(c.trim());
+      if(s&&s.trim())setterSet.add(s.trim());
+    });
+    pb.forEach(r=>{
+      const bt=r['Booked to']||r['Closer']||'';
+      const sb=r['Set by']||r['Setter']||'';
+      if(bt&&bt.trim())closerSet.add(bt.trim());
+      if(sb&&sb.trim())setterSet.add(sb.trim());
+    });
+    CLOSERS=[...closerSet].filter(Boolean);
+    SETTERS=[...setterSet].filter(Boolean);
+
+    // Populate dropdowns
+    document.getElementById('closerOpts').innerHTML=CLOSERS.map(c=>`<option>${c}</option>`).join('');
+    document.getElementById('setterOpts').innerHTML=SETTERS.map(s=>`<option>${s}</option>`).join('');
+
+    if(!eoc.length&&!pb.length){
+      const sb=document.getElementById('statusBar');
+      sb.className='status-bar error';
+      sb.textContent='⚠ Connected but no data found. Make sure sheet is shared: "Anyone with the link → Viewer"';
+      sb.style.display='block';
+    }
+    applyFilters();
+    document.getElementById('upd').textContent=`Updated ${new Date().toLocaleTimeString()} · ${eoc.length} EOC rows`;
+  }catch(ex){
+    const sb=document.getElementById('statusBar');
+    sb.className='status-bar error';
+    sb.textContent='⚠ Could not load data: '+ex.message+'. Host on GitHub Pages — local files cannot fetch Google Sheets.';
+    sb.style.display='block';
+    document.getElementById('upd').textContent='Error';
+  }
+}
+
+function applyFilters(){
+  const from=document.getElementById('df').value,to=document.getElementById('dt').value,rep=document.getElementById('rf').value;
+  const filt=arr=>arr.filter(r=>{
+    if(!r)return false;
+    if(from||to){const ts=Object.values(r).find(v=>v&&String(v).match(/\d{1,2}\/\d{1,2}\/\d{4}/))||'';const d=new Date(ts);if(from&&!isNaN(d)&&d<new Date(from))return false;if(to&&!isNaN(d)&&d>new Date(to+'T23:59:59'))return false;}
+    if(rep!=='all'&&!Object.values(r).some(v=>String(v||'').toLowerCase()===rep.toLowerCase()))return false;
+    return true;
+  });
+  F={eoc:filt(D.eoc),eodC:filt(D.eodC),eodS:filt(D.eodS),pb:filt(D.pb),fu:filt(D.fu),bod:filt(D.bod)};
+  renderAll();
+}
+
+const $f=v=>{const n=parseFloat(String(v||'').replace(/[$,]/g,'').replace(/k$/i,'000'));return isNaN(n)||n===0?'$0':'$'+n.toLocaleString();};
+const num=v=>{const n=parseFloat(String(v||'').replace(/[$,]/g,'').replace(/k$/i,'000'));return isNaN(n)?0:n;};
+const sum=(arr,k)=>arr.reduce((s,r)=>s+num(r[k]),0);
+const isYes=v=>String(v||'').toLowerCase().trim()==='yes';
+const fk=(obj,opts)=>{if(!obj)return opts[0];for(const o of opts)if(Object.hasOwn(obj,o))return o;const ks=Object.keys(obj||{});for(const o of opts){const m=ks.find(k=>k.toLowerCase().includes(o.toLowerCase().split(' ')[0]));if(m)return m;}return opts[0];};
+
+function offerTag(cash){
+  const n=num(cash);
+  if(n>=2500)return '<span class="offer-tag offer-3k">$3K</span>';
+  if(n>=1000)return '<span class="offer-tag offer-1k5">$1.5K</span>';
+  return '<span style="color:var(--muted);font-size:11px">—</span>';
+}
+function offerCat(cash){const n=num(cash);if(n>=2500)return '3k';if(n>=1000)return '1k5';return 'other';}
+
+function goalBar(val,goal){
+  const pv=Math.min(100,(val/goal)*100);
+  const c=val>=goal?'var(--mint)':val>=goal*.7?'var(--coral)':'var(--red)';
+  const lbl=val>=goal?`<span class="badge bmn" style="font-size:10px">✓ ${val.toFixed(0)}%</span>`:`<span class="badge bred" style="font-size:10px">need +${(goal-val).toFixed(0)}%</span>`;
+  return `<div class="gb-wrap"><div class="gb-track"><div class="gb-fill" style="width:${pv}%;background:${c}"></div></div><div style="display:flex;justify-content:space-between;margin-top:2px">${lbl}<span style="font-size:10px;color:var(--muted)">${val.toFixed(0)}%</span></div></div>`;
+}
+
+function renderAll(){
+  renderKPIs();renderTrend();renderLeaderboard();
+  renderCloser();renderSetter();renderCharts();renderEOC();renderCommissions();renderPP();
+  renderOfferPage();renderSetterPage();renderReschedPage();renderValidationPage();
+}
+
+function renderKPIs(){
+  const e=F.eoc;
+  if(!e.length){['k-cash','k-rev','k-deals','k-show','k-close','k-3k','k-1k5','k-aov','k-cps','k-noshow','k-resched','k-flags'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='0';});return;}
+  const ck=fk(e[0],['Cash Collected','Cash Collected ($)','cash']);
+  const rk=fk(e[0],['Rev Generated','Revenue Generated','Rev']);
+  const sk=fk(e[0],['Show Up','Show','Showed']);
+  const ok=fk(e[0],['Offer Made','Offer']);
+  const outk=fk(e[0],['Outcome','outcome','Brief Summary','What was the']);
+  const tc=sum(e,ck),tr=sum(e,rk)||tc;
+  const deals=e.filter(r=>num(r[ck])>0).length;
+  const shown=e.filter(r=>isYes(r[sk])).length;
+  const showR=e.length>0?(shown/e.length)*100:0;
+  const closeR=shown>0?(deals/shown)*100:0;
+  const c3k=e.filter(r=>offerCat(r[ck])==='3k').length;
+  const c1k5=e.filter(r=>offerCat(r[ck])==='1k5').length;
+  const aov=deals>0?(tc/deals):0;
+  const cps=e.length>0?(tc/e.length):0;
+  const noShow=e.filter(r=>{const v=String(r[sk]||'').toLowerCase();return v==='no'||v==='n';}).length;
+  const resched=e.filter(r=>{const o=String(r[outk]||'').toLowerCase();return o.includes('reschedul')||o.includes('follow up')||o.includes('rebook');}).length;
+  const flags=e.filter(r=>isYes(r[ok])&&num(r[ck])===0).length;
+  const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  sv('k-cash',$f(tc));sv('k-rev',$f(tr));sv('k-deals',deals);
+  sv('k-show',showR.toFixed(0)+'%');sv('k-close',closeR.toFixed(0)+'%');
+  sv('k-3k',c3k);sv('k-1k5',c1k5);sv('k-aov',$f(aov));sv('k-cps',$f(cps));
+  sv('k-noshow',noShow);sv('k-resched',resched);sv('k-flags',flags);
+}
+
+function renderTrend(){
+  const e=F.eoc;
+  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
+  const byDate={};
+  [...e].sort((a,b)=>new Date(a['Timestamp']||0)-new Date(b['Timestamp']||0)).forEach(r=>{
+    const d=(r['Timestamp']||'').split(' ')[0]||'?';
+    byDate[d]=(byDate[d]||0)+num(r[ck]);
+  });
+  const dates=Object.keys(byDate);let cum=0;
+  const cumData=dates.map(d=>{cum+=byDate[d];return cum;});
+  if(charts.trend)charts.trend.destroy();
+  charts.trend=new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:dates,datasets:[{data:cumData,borderColor:'#e8729a',backgroundColor:'rgba(232,114,154,0.08)',fill:true,tension:0.4,pointRadius:0,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1f1424',padding:10,callbacks:{label:c=>'$'+c.raw.toLocaleString()}}},scales:{x:{display:false},y:{grid:{color:'rgba(255,180,200,0.05)'},ticks:{color:'#8a7090',font:{family:'DM Sans',size:10},callback:v=>'$'+v.toLocaleString()}}}}});
+}
+
+function renderLeaderboard(){
+  const e=F.eoc;
+  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
+  const ck2=e.length?fk(e[0],['Closer','Booked to','closer']):'Closer';
+  const sk2=e.length?fk(e[0],['Setter','Set by','setter']):'Setter';
+  const showk=e.length?fk(e[0],['Show Up','Show','Showed']):'Show Up';
+  const allReps=[...new Set([...CLOSERS,...SETTERS])];
+  if(!allReps.length){document.getElementById('lbSection').innerHTML='<div class="empty"><span>✨</span>No rep data yet</div>';return;}
+  const stats=allReps.map(name=>{
+    const asC=e.filter(r=>String(r[ck2]||'').toLowerCase()===name.toLowerCase());
+    const asS=e.filter(r=>String(r[sk2]||'').toLowerCase()===name.toLowerCase());
+    const cash=sum(asC,ck);const setCash=sum(asS.filter(r=>num(r[ck])>0),ck);
+    const closes=asC.filter(r=>num(r[ck])>0).length;
+    const shown=asC.filter(r=>isYes(r[showk])).length;
+    const showRate=asC.length>0?(shown/asC.length)*100:0;
+    const closeRate=shown>0?(closes/shown)*100:0;
+    const isC=CLOSERS.includes(name),isS=SETTERS.includes(name);
+    const comm=isC?cash*.10:setCash*.05;
+    const role=isC&&isS?'Both':isC?'Closer':'Setter';
+    return{name,cash,setCash,closes,showRate,closeRate,comm,role};
+  });
+  const rc=i=>i===0?'gold':i===1?'silver':i===2?'bronze':'dim';
+  const mkLB=(title,color,items)=>{
+    const maxVal=Math.max(...items.map(i=>i.val),1);
+    return `<div class="lb-card"><div class="lb-header"><span class="lb-title" style="color:${color}">${title}</span><span style="font-size:10px;color:var(--muted)">${items.length} reps</span></div>${items.map((item,i)=>`<div class="lb-row"><div class="lb-rank ${rc(i)}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div><div class="lb-name">${item.name}<br><span style="font-size:10px;color:var(--muted)">${item.role}</span></div><div class="lb-bar-wrap"><div class="lb-bar-track"><div class="lb-bar-fill" style="width:${(item.val/maxVal*100).toFixed(0)}%;background:${color}"></div></div></div><div class="lb-val" style="color:${color}">${item.label}</div></div>`).join('')}</div>`;
+  };
+  const rev=[...stats].sort((a,b)=>b.cash-a.cash).map(s=>({...s,val:s.cash,label:$f(s.cash)}));
+  const comm=[...stats].sort((a,b)=>b.comm-a.comm).map(s=>({...s,val:s.comm,label:$f(s.comm)}));
+  const show=[...stats].filter(s=>CLOSERS.includes(s.name)).sort((a,b)=>b.showRate-a.showRate).map(s=>({...s,val:s.showRate,label:s.showRate.toFixed(0)+'%'}));
+  const close=[...stats].filter(s=>CLOSERS.includes(s.name)).sort((a,b)=>b.closeRate-a.closeRate).map(s=>({...s,val:s.closeRate,label:s.closeRate.toFixed(0)+'%'}));
+  const el=document.getElementById('lbSection');
+  if(el)el.innerHTML=mkLB('Cash Collected','var(--rose)',rev)+mkLB('Commission','var(--gold)',comm)+(show.length?mkLB('Show Rate','var(--lavender)',show):'')+close.length?mkLB('Close Rate','var(--mauve)',close):'';
+}
+
+function renderCloser(){
+  const e=F.eoc;
+  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
+  const rk=e.length?fk(e[0],['Rev Generated','Revenue Generated']):'Rev Generated';
+  const sk=e.length?fk(e[0],['Show Up','Show','Showed']):'Show Up';
+  const ok=e.length?fk(e[0],['Offer Made','Offer']):'Offer Made';
+  const ck2=e.length?fk(e[0],['Closer','Booked to']):'Closer';
+  if(!CLOSERS.length){const el=document.getElementById('ctBody');if(el)el.innerHTML='<tr><td colspan="9"><div class="empty"><span>✨</span>No closer data yet</div></td></tr>';return;}
+  const rows=CLOSERS.map(c=>{
+    const mine=e.filter(r=>String(r[ck2]||'').toLowerCase()===c.toLowerCase());
+    const shown=mine.filter(r=>isYes(r[sk])).length;
+    const offers=mine.filter(r=>isYes(r[ok])).length;
+    const closed=mine.filter(r=>num(r[ck])>0).length;
+    const cash=sum(mine,ck),rev=sum(mine,rk)||cash;
+    const sp=mine.length>0?(shown/mine.length)*100:0,cp=shown>0?(closed/shown)*100:0;
+    return{name:c,sched:mine.length,shown,offers,closed,cash,rev,sp,cp};
+  });
+  const tot=rows.reduce((t,r)=>({name:'TOTALS',sched:t.sched+r.sched,shown:t.shown+r.shown,offers:t.offers+r.offers,closed:t.closed+r.closed,cash:t.cash+r.cash,rev:t.rev+r.rev,sp:0,cp:0}),{name:'TOTALS',sched:0,shown:0,offers:0,closed:0,cash:0,rev:0,sp:0,cp:0});
+  tot.sp=tot.sched>0?(tot.shown/tot.sched)*100:0;tot.cp=tot.shown>0?(tot.closed/tot.shown)*100:0;
+  const rh=r=>`<tr ${r.name==='TOTALS'?'class="tr-tot"':''}><td><b>${r.name}</b></td><td>${r.sched}</td><td>${r.shown}</td><td>${r.offers}</td><td>${r.closed}</td><td style="color:var(--rose)">${$f(r.cash)}</td><td style="color:var(--lavender)">${$f(r.rev)}</td><td>${r.sp.toFixed(0)}%</td><td>${goalBar(r.cp,30)}</td></tr>`;
+  const el=document.getElementById('ctBody');if(el)el.innerHTML=[...rows,tot].map(rh).join('');
+}
+
+function renderSetter(){
+  const e=F.eoc,pb=F.pb;
+  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
+  const rk=e.length?fk(e[0],['Rev Generated','Revenue Generated']):'Rev Generated';
+  const sk=e.length?fk(e[0],['Show Up','Show','Showed']):'Show Up';
+  const setk=e.length?fk(e[0],['Setter','Set by']):'Setter';
+  const sbk=pb.length?fk(pb[0],['Set by','Set By','Setter']):'Set by';
+  if(!SETTERS.length){const el=document.getElementById('stBody');if(el)el.innerHTML='<tr><td colspan="8"><div class="empty"><span>✨</span>No setter data yet</div></td></tr>';return;}
+  const rows=SETTERS.map(s=>{
+    const mine=e.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase());
+    const sets=pb.filter(r=>String(r[sbk]||'').toLowerCase()===s.toLowerCase()).length||mine.length;
+    const shown=mine.filter(r=>isYes(r[sk])).length;
+    const closed=mine.filter(r=>num(r[ck])>0).length;
+    const cash=sum(mine,ck),rev=sum(mine,rk)||cash;
+    const scp=sets>0?(closed/sets)*100:0,shp=sets>0?(shown/sets)*100:0;
+    return{name:s,sets,shown,closed,cash,rev,scp,shp};
+  });
+  const tot=rows.reduce((t,r)=>({name:'TOTALS',sets:t.sets+r.sets,shown:t.shown+r.shown,closed:t.closed+r.closed,cash:t.cash+r.cash,rev:t.rev+r.rev,scp:0,shp:0}),{name:'TOTALS',sets:0,shown:0,closed:0,cash:0,rev:0,scp:0,shp:0});
+  tot.scp=tot.sets>0?(tot.closed/tot.sets)*100:0;tot.shp=tot.sets>0?(tot.shown/tot.sets)*100:0;
+  const rh=r=>`<tr ${r.name==='TOTALS'?'class="tr-tot"':''}><td><b>${r.name}</b></td><td>${r.sets}</td><td>${r.shown}</td><td>${r.closed}</td><td style="color:var(--rose)">${$f(r.cash)}</td><td style="color:var(--lavender)">${$f(r.rev)}</td><td>${r.scp.toFixed(0)}%</td><td>${goalBar(r.shp,85)}</td></tr>`;
+  const el=document.getElementById('stBody');if(el)el.innerHTML=[...rows,tot].map(rh).join('');
+}
+
+function renderCharts(){
+  const e=F.eoc;
+  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
+  const ck2=e.length?fk(e[0],['Closer','Booked to']):'Closer';
+  const sk2=e.length?fk(e[0],['Setter','Set by']):'Setter';
+  const showk=e.length?fk(e[0],['Show Up','Show','Showed']):'Show Up';
+  const COLORS=['#e8729a','#c084b8','#9b72cf','#f4836a','#f0c070','#7ecfb0'];
+  const rev=CLOSERS.map(c=>sum(e.filter(r=>String(r[ck2]||'').toLowerCase()===c.toLowerCase()),ck));
+  const co={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1f1424',padding:10}},scales:{x:{grid:{color:'rgba(255,180,200,0.04)'},ticks:{color:'#8a7090',font:{family:'DM Sans'}}},y:{grid:{color:'rgba(255,180,200,0.04)'},ticks:{color:'#8a7090',font:{family:'DM Sans'}}}}};
+  if(charts.rev)charts.rev.destroy();
+  charts.rev=new Chart(document.getElementById('revChart'),{type:'bar',data:{labels:CLOSERS.length?CLOSERS:['—'],datasets:[{data:rev,backgroundColor:COLORS.map(c=>c+'88'),borderColor:COLORS,borderWidth:1,borderRadius:6}]},options:{...co,scales:{...co.scales,y:{...co.scales.y,ticks:{...co.scales.y.ticks,callback:v=>'$'+v.toLocaleString()}}}}});
+  const allReps=[...CLOSERS,...SETTERS.filter(s=>!CLOSERS.includes(s))];
+  const sp=allReps.map(r=>{const mine=e.filter(row=>String(row[ck2]||'').toLowerCase()===r.toLowerCase()||String(row[sk2]||'').toLowerCase()===r.toLowerCase());return mine.length>0?(mine.filter(row=>isYes(row[showk])).length/mine.length)*100:0;});
+  const sc=sp.map(v=>v>=85?'rgba(126,207,176,0.6)':v>=70?'rgba(244,131,106,0.6)':'rgba(240,96,128,0.6)');
+  const sb=sp.map(v=>v>=85?'#7ecfb0':v>=70?'#f4836a':'#f06080');
+  if(charts.show)charts.show.destroy();
+  charts.show=new Chart(document.getElementById('showChart'),{type:'bar',data:{labels:allReps.length?allReps:['—'],datasets:[{data:sp,backgroundColor:sc,borderColor:sb,borderWidth:1,borderRadius:6}]},options:{...co,scales:{...co.scales,y:{max:100,...co.scales.y,ticks:{...co.scales.y.ticks,callback:v=>v+'%'}}}}});
+}
+
+function renderCommissions(){
+  const e=F.eoc;
+  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
+  const ck2=e.length?fk(e[0],['Closer','Booked to']):'Closer';
+  const sk2=e.length?fk(e[0],['Setter','Set by']):'Setter';
+  const td=(v,bold,color,align='right')=>`<td style="text-align:${align};padding:8px;border-bottom:.5px solid rgba(255,180,200,.06);${color?'color:'+color+';':''}${bold?'font-weight:700;':''}">${v}</td>`;
+  let ct=0;
+  const closers=CLOSERS.length?CLOSERS:['No closers yet'];
+  document.getElementById('closerCommBody').innerHTML=closers.map(c=>{const mine=e.filter(r=>String(r[ck2]||'').toLowerCase()===c.toLowerCase());const cash=sum(mine,ck);const comm=cash*.10;ct+=comm;return`<tr>${td(c,true,'','left')}${td($f(cash),false,'var(--rose)')}${td($f(comm),true,'var(--gold)')}</tr>`;}).join('')+`<tr style="background:var(--card2)">${td('TOTAL',true)}${td('')}${td($f(ct),true,'var(--gold)')}</tr>`;
+  let st=0;
+  const setters=SETTERS.length?SETTERS:['No setters yet'];
+  document.getElementById('setterCommBody').innerHTML=setters.map(s=>{const mine=e.filter(r=>String(r[sk2]||'').toLowerCase()===s.toLowerCase());const cash=sum(mine.filter(r=>num(r[ck])>0),ck);const comm=cash*.05;st+=comm;return`<tr>${td(s,true,'','left')}${td($f(cash),false,'var(--rose)')}${td($f(comm),true,'var(--lavender)')}</tr>`;}).join('')+`<tr style="background:var(--card2)">${td('TOTAL',true)}${td('')}${td($f(st),true,'var(--lavender)')}</tr>`;
+}
+
+function renderEOC(){
+  const e=F.eoc;eocFiltered_=[...e].reverse();eocPage_=1;drawEOCPage();
+}
+function searchEOC(){
+  const q=document.getElementById('eocSearch').value.toLowerCase().trim();
+  eocFiltered_=q?[...F.eoc].reverse().filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase().includes(q))):[...F.eoc].reverse();
+  eocPage_=1;drawEOCPage();
+}
+function eocPage(dir){
+  const total=Math.ceil(eocFiltered_.length/EOC_PS);
+  eocPage_=Math.min(Math.max(1,eocPage_+dir),total||1);drawEOCPage();
+}
+function drawEOCPage(){
+  const e=eocFiltered_,el=document.getElementById('eocBody');if(!el)return;
+  if(!e.length){el.innerHTML='<tr><td colspan="10"><div class="empty"><span>✨</span>No EOC data yet</div></td></tr>';return;}
+  const total=Math.ceil(e.length/EOC_PS),start=(eocPage_-1)*EOC_PS,page=e.slice(start,start+EOC_PS);
+  const emailk=fk(e[0],['Lead Email','Email','Lead Email (same as CRM)']);
+  const ck2=fk(e[0],['Closer','Booked to','closer']);
+  const sk2=fk(e[0],['Setter','Set by','setter']);
+  const showk=fk(e[0],['Show Up','Show','Showed']);
+  const ok=fk(e[0],['Offer Made','Offer']);
+  const cashk=fk(e[0],['Cash Collected','Cash Collected ($)']);
+  const revk=fk(e[0],['Rev Generated','Revenue Generated']);
+  const offerk=fk(e[0],['Brief Summary','Offer Pitched','Offer','outcome']);
+  const outk=fk(e[0],['What was the outcome','Outcome','outcome','Brief Summary']);
+  el.innerHTML=page.map(r=>{
+    const flag=isYes(r[ok])&&num(r[cashk])===0;
+    return `<tr class="${flag?'tr-flag':''}"><td>${flag?'⚠️':''}</td><td>${r[emailk]||'—'}</td><td>${r[ck2]||'—'}</td><td>${r[sk2]||'—'}</td><td>${isYes(r[showk])?'<span class="badge bmn">Yes</span>':'<span class="badge bred">No</span>'}</td><td>${isYes(r[ok])?'<span class="badge br">Yes</span>':'—'}</td><td style="color:var(--rose)">${$f(r[cashk])}</td><td style="color:var(--lavender)">${$f(r[revk]||r[cashk])}</td><td>${offerTag(r[cashk])}</td><td style="max-width:180px;font-size:11px">${r[outk]||'—'}</td></tr>`;
+  }).join('');
+  const lbl=`Page ${eocPage_} of ${total} · ${e.length} calls`;
+  const l1=document.getElementById('eocPageLabel');if(l1)l1.textContent=lbl;
+  const cnt=document.getElementById('eocCount');if(cnt)cnt.textContent=`Showing ${start+1}–${Math.min(start+EOC_PS,e.length)} of ${e.length}`;
+}
+
+function renderPP(){
+  const pb=F.pb,el=document.getElementById('ppSection');if(!el)return;
+  if(!pb.length){el.innerHTML='<div class="empty"><span>✨</span>No post-booking data yet</div>';return;}
+  const lk=fk(pb[0],['Lead Name','Lead','Name','What is the lead']);
+  const sbk=fk(pb[0],['Set by','Set By','Setter']);
+  const btk=fk(pb[0],['Booked to','Booked To','Closer']);
+  const hwk=fk(pb[0],['How was it set','Source','how']);
+  const bdk=fk(pb[0],['Budget','budget']);
+  const ok=fk(pb[0],['Possible Objections','Objections','objection']);
+  el.innerHTML=pb.map(r=>`<div class="pp-card"><div class="pp-lead">${r[lk]||'Unknown Lead'}</div><div class="pp-row"><span class="pp-k">Set by</span><span>${r[sbk]||'—'}</span></div><div class="pp-row"><span class="pp-k">Booked to</span><span>${r[btk]||'—'}</span></div><div class="pp-row"><span class="pp-k">How set</span><span>${r[hwk]||'—'}</span></div><div class="pp-badges">${r[bdk]?`<span class="badge bl">${r[bdk]}</span>`:''} ${r[ok]&&String(r[ok]).trim()?`<span class="badge bc">⚠ ${r[ok]}</span>`:''}</div></div>`).join('');
+}
+
+function renderOfferPage(){
+  const e=F.eoc;
+  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
+  const ck2=e.length?fk(e[0],['Closer','Booked to']):'Closer';
+  const sk2=e.length?fk(e[0],['Setter','Set by']):'Setter';
+  const emailk=e.length?fk(e[0],['Lead Email','Email']):'Lead Email';
+  const datk=e.length?fk(e[0],['Timestamp','Date']):'Timestamp';
+  const n3k=e.filter(r=>offerCat(r[ck])==='3k');
+  const n1k5=e.filter(r=>offerCat(r[ck])==='1k5');
+  const cash3k=sum(n3k,ck),cash1k5=sum(n1k5,ck);
+  const total=n3k.length+n1k5.length;
+  const dsRate=total>0?(n1k5.length/total)*100:0;
+  const allCash=cash3k+cash1k5;
+  const avg=total>0?(allCash/total):0;
+  const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  sv('of-3k-n',n3k.length);sv('of-3k-cash',$f(cash3k)+' collected');
+  sv('of-1k5-n',n1k5.length);sv('of-1k5-cash',$f(cash1k5)+' collected');
+  sv('of-ds-rate',dsRate.toFixed(0)+'%');sv('of-avg',$f(avg));
+
+  if(charts.offerPie)charts.offerPie.destroy();
+  const oc=document.getElementById('offerPieChart');
+  if(oc)charts.offerPie=new Chart(oc,{type:'doughnut',data:{labels:['$3K Full','$1.5K Downsell'],datasets:[{data:[n3k.length,n1k5.length],backgroundColor:['rgba(232,114,154,0.7)','rgba(192,132,184,0.7)'],borderColor:['#e8729a','#c084b8'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'bottom',labels:{color:'#8a7090',font:{family:'DM Sans',size:11},padding:12,boxWidth:10}},tooltip:{backgroundColor:'#1f1424',padding:10}}}});
+
+  if(charts.offerCash)charts.offerCash.destroy();
+  const occ=document.getElementById('offerCashChart');
+  if(occ)charts.offerCash=new Chart(occ,{type:'bar',data:{labels:['$3K Full','$1.5K Downsell'],datasets:[{data:[cash3k,cash1k5],backgroundColor:['rgba(232,114,154,0.6)','rgba(192,132,184,0.6)'],borderColor:['#e8729a','#c084b8'],borderWidth:1,borderRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1f1424',padding:10,callbacks:{label:c=>'$'+c.raw.toLocaleString()}}},scales:{x:{grid:{color:'rgba(255,180,200,0.04)'},ticks:{color:'#8a7090',font:{family:'DM Sans'}}},y:{grid:{color:'rgba(255,180,200,0.04)'},ticks:{color:'#8a7090',font:{family:'DM Sans'},callback:v=>'$'+v.toLocaleString()}}}}});
+
+  const ot=document.getElementById('offerTable');
+  if(ot){
+    const closed=e.filter(r=>num(r[ck])>0);
+    ot.innerHTML=closed.length?[...closed].reverse().map(r=>`<tr><td>${r[emailk]||'—'}</td><td>${r[ck2]||'—'}</td><td>${r[sk2]||'—'}</td><td>${offerTag(r[ck])}</td><td style="color:var(--rose)">${$f(r[ck])}</td><td style="color:var(--lavender)">${$f(r[fk(r,['Rev Generated','Revenue Generated'])]||r[ck])}</td><td style="font-size:11px;color:var(--muted)">${r[datk]||'—'}</td></tr>`).join(''):'<tr><td colspan="7"><div class="empty"><span>✨</span>No closed deals yet</div></td></tr>';
+  }
+}
+
+function renderSetterPage(){
+  const eoc=F.eoc,eodS=F.eodS,pb=F.pb,bod=F.bod;
+  const setk=eoc.length?fk(eoc[0],['Setter','Set by']):'Setter';
+  const cashk=eoc.length?fk(eoc[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
+  const showk=eoc.length?fk(eoc[0],['Show Up','Show','Showed']):'Show Up';
+  const outk=eoc.length?fk(eoc[0],['Outcome','outcome','Brief Summary','What was the']):'Outcome';
+  const sbk=pb.length?fk(pb[0],['Set by','Set By','Setter']):'Set by';
+  const repk=eodS.length?fk(eodS[0],["What's your name","Rep Name",'Name','name']):"What's your name";
+  const dialsk=eodS.length?fk(eodS[0],['Dials','dials']):'Dials';
+  const datek=eodS.length?fk(eodS[0],['Date','date']):'Date';
+  const apptk=eodS.length?fk(eodS[0],['Appointments Set','Sets','sets','Appointments']):'Appointments Set';
+  const bnk=eodS.length?fk(eodS[0],['Biggest Bottleneck','Bottleneck','Feedback','feedback']):'Biggest Bottleneck';
+
+  const txt=eoc.map(r=>String(r[outk]||'')).join(' ').toLowerCase();
+  const objTypes=['Money','Time','Partner','Fear','Think about','Already tried'];
+  const topBN=objTypes.map(t=>({t,n:(txt.match(new RegExp(t.toLowerCase(),'g'))||[]).length})).sort((a,b)=>b.n-a.n)[0];
+  const btEl=document.getElementById('topBottleneck');
+  if(btEl)btEl.innerHTML=topBN&&topBN.n>0?`<div class="bb-bubble"><div class="bb-icon">🔥</div><div><div class="bb-label">Top Bottleneck</div><div class="bb-val">${topBN.t}</div><div class="bb-sub">Mentioned ${topBN.n} times — ${((topBN.n/Math.max(eoc.length,1))*100).toFixed(0)}% of calls</div></div></div>`:'<div class="empty"><span>🔥</span>No objection data yet</div>';
+
+  const allSets=SETTERS.map(s=>({name:s,sets:pb.filter(r=>String(r[sbk]||'').toLowerCase()===s.toLowerCase()).length||eoc.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase()).length,shown:eoc.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase()&&isYes(r[showk])).length,total:eoc.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase()).length,cash:sum(eoc.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase()&&num(r[cashk])>0),cashk)}));
+  const topSDR=[...allSets].sort((a,b)=>b.sets-a.sets)[0];
+  const totalSets=allSets.reduce((s,r)=>s+r.sets,0);
+  const totalShown=allSets.reduce((s,r)=>s+r.shown,0);
+  const totalSRTotal=allSets.reduce((s,r)=>s+r.total,0);
+  const totalDials=sum(eodS,dialsk);
+  const totalDays=[...new Set(eodS.map(r=>r[datek]))].filter(Boolean).length||1;
+  const avgDials=(totalDials/totalDays).toFixed(0);
+  const missedKPI=eodS.filter(r=>num(r[dialsk])>0&&num(r[dialsk])<200).length;
+  const totalCash=allSets.reduce((s,r)=>s+r.cash,0);
+  const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  sv('ss-sets',totalSets);sv('ss-top',topSDR?topSDR.name:'—');sv('ss-dials',avgDials);
+  sv('ss-show',totalSRTotal>0?((totalShown/totalSRTotal)*100).toFixed(0)+'%':'—');
+  sv('ss-cash',$f(totalCash));sv('ss-missed',missedKPI);
+
+  const sdrEl=document.getElementById('sdrCards');
+  if(sdrEl)sdrEl.innerHTML=SETTERS.length?SETTERS.map(s=>{
+    const myEOC=eoc.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase());
+    const myEOD=eodS.filter(r=>String(r[repk]||'').toLowerCase()===s.toLowerCase());
+    const sets=pb.filter(r=>String(r[sbk]||'').toLowerCase()===s.toLowerCase()).length||myEOC.length;
+    const shown=myEOC.filter(r=>isYes(r[showk])).length;
+    const closed=myEOC.filter(r=>num(r[cashk])>0).length;
+    const cash=sum(myEOC.filter(r=>num(r[cashk])>0),cashk);
+    const totalD=sum(myEOD,dialsk);
+    const days=[...new Set(myEOD.map(r=>r[datek]))].filter(Boolean).length||1;
+    const avgD=(totalD/days).toFixed(0);
+    const missedD=myEOD.filter(r=>num(r[dialsk])>0&&num(r[dialsk])<200).length;
+    const hitKPI=num(avgD)>=200;
+    return `<div class="sdr-card"><div class="sdr-header"><span class="sdr-name">${s}</span>${totalD>0?(hitKPI?'<span class="hit-badge">✓ KPI Hit</span>':missedD>0?'<span class="miss-badge">⚠ Missed</span>':''):'<span style="font-size:10px;color:var(--muted)">No EOD data</span>'}</div><div class="sdr-body"><div class="sdr-row"><span class="sdr-key">Total Sets</span><span class="sdr-val" style="color:var(--lavender)">${sets}</span></div><div class="sdr-row"><span class="sdr-key">Show Rate</span><span class="sdr-val">${sets>0?((shown/sets)*100).toFixed(0)+'%':'—'}</span></div><div class="sdr-row"><span class="sdr-key">Set→Close%</span><span class="sdr-val">${shown>0?((closed/shown)*100).toFixed(0)+'%':'—'}</span></div><div class="sdr-row"><span class="sdr-key">Cash Generated</span><span class="sdr-val" style="color:var(--rose)">${$f(cash)}</span></div><div class="sdr-row"><span class="sdr-key">Avg Dials/Day</span><span class="sdr-val">${num(avgD)>0?avgD:'—'} ${num(avgD)>=200?'<span class="hit-badge">✓</span>':num(avgD)>0?'<span class="miss-badge">Under 200</span>':''}</span></div><div class="sdr-row"><span class="sdr-key">Missed KPI Days</span><span class="sdr-val">${missedD>0?`<span class="miss-badge">${missedD}d</span>`:'<span class="hit-badge">✓ None</span>'}</span></div></div></div>`;
+  }).join(''):'<div class="empty"><span>✨</span>No setter data yet</div>';
+
+  const eodEl=document.getElementById('eodSetterTable');
+  if(eodEl)eodEl.innerHTML=eodS.length?[...eodS].reverse().slice(0,50).map(r=>{
+    const d=num(r[dialsk]);const hit=d>=200;
+    return `<tr><td style="font-size:11px;color:var(--muted)">${r[datek]||'—'}</td><td><b>${r[repk]||'—'}</b></td><td>${d>0?`<b style="color:${hit?'var(--mint)':'var(--red)'}">${d}</b>`:'—'}</td><td>${d>0?(hit?'<span class="hit-badge">✓</span>':'<span class="miss-badge">✗</span>'):'—'}</td><td>${r[apptk]||'—'}</td><td>—</td><td>—</td><td style="color:var(--rose)">—</td><td style="font-size:11px;color:var(--coral)">${r[bnk]||'—'}</td></tr>`;
+  }).join(''):'<tr><td colspan="9"><div class="empty"><span>📋</span>No EOD data yet</div></td></tr>';
+
+  // BOD
+  const bodEl=document.getElementById('bodTable');
+  if(bodEl){
+    const bRepk=bod.length?fk(bod[0],["What's your name",'Name']):"What's your name";
+    const bDatek=bod.length?fk(bod[0],['Date','date']):'Date';
+    const bGoalk=bod.length?fk(bod[0],['Goal of sets','Goal']):'Goal of sets';
+    const bClsk=bod.length?fk(bod[0],['Sets Closed','Closed']):'Sets Closed';
+    const bTimek=bod.length?fk(bod[0],['Did you time block','time block']):'Did you time block?';
+    const bTop3k=bod.length?fk(bod[0],['Top 3 Goals','Top 3']):'Top 3 Goals:';
+    const bHowk=bod.length?fk(bod[0],['How will you get','How']):'How will you get to that goal ?';
+    bodEl.innerHTML=bod.length?[...bod].reverse().slice(0,30).map(r=>`<tr><td style="font-size:11px;color:var(--muted)">${r[bDatek]||'—'}</td><td><b>${r[bRepk]||'—'}</b></td><td>${r[bGoalk]||'—'}</td><td>${r[bClsk]||'—'}</td><td>${r[bTimek]&&String(r[bTimek]).toLowerCase()==='yes'?'<span class="hit-badge">✓</span>':'<span class="miss-badge">✗</span>'}</td><td style="font-size:11px;max-width:180px">${r[bTop3k]||'—'}</td><td style="font-size:11px;max-width:180px;color:var(--muted)">${r[bHowk]||'—'}</td></tr>`).join(''):'<tr><td colspan="7"><div class="empty"><span>📋</span>No BOD data yet</div></td></tr>';
+  }
+  renderFU();
+}
+
+function renderFU(){
+  const fu=F.fu;fuFiltered_=fu;fuPage_=1;drawFUPage();
+}
+function searchFU(){
+  const q=document.getElementById('fuSearch').value.toLowerCase().trim();
+  fuFiltered_=q?F.fu.filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase().includes(q))):F.fu;
+  fuPage_=1;drawFUPage();
+}
+function fuPage(dir){
+  const total=Math.ceil(fuFiltered_.length/FU_PS);
+  fuPage_=Math.min(Math.max(1,fuPage_+dir),total||1);drawFUPage();
+}
+function drawFUPage(){
+  const fu=fuFiltered_,el=document.getElementById('fuBody');if(!el)return;
+  if(!fu.length){el.innerHTML='<tr><td colspan="5"><div class="empty"><span>✨</span>No follow-up data yet</div></td></tr>';const fc=document.getElementById('fuCount');if(fc)fc.textContent='';return;}
+  const total=Math.ceil(fu.length/FU_PS),start=(fuPage_-1)*FU_PS,page=fu.slice(start,start+FU_PS);
+  const repk=fk(fu[0],['Rep Name','rep name','Name','Setter']);
+  const leadk=fk(fu[0],['Lead Name','Lead','lead','Name']);
+  const desk=fk(fu[0],['Description','description','Notes']);
+  const fudk=fk(fu[0],['Follow UP Date','Follow Up Date','Follow-Up Date']);
+  const tsk=fk(fu[0],['Timestamp','timestamp','Date']);
+  el.innerHTML=page.map(r=>`<tr><td><span class="badge bl">${r[repk]||'—'}</span></td><td>${r[leadk]||'—'}</td><td style="max-width:220px;font-size:11px">${r[desk]||'—'}</td><td style="color:var(--coral)">${r[fudk]||'—'}</td><td style="font-size:11px;color:var(--muted)">${r[tsk]||'—'}</td></tr>`).join('');
+  const lbl=`Page ${fuPage_} of ${total} · ${fu.length} follow-ups`;
+  const l1=document.getElementById('fuPageLabel');if(l1)l1.textContent=lbl;
+  const fc=document.getElementById('fuCount');if(fc)fc.textContent=`${start+1}–${Math.min(start+FU_PS,fu.length)} of ${fu.length}`;
+}
+
+function renderReschedPage(){
+  const e=F.eoc,eodC=F.eodC;
+  const cashk=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
+  const showk=e.length?fk(e[0],['Show Up','Show','Showed']):'Show Up';
+  const sk2=e.length?fk(e[0],['Setter','Set by']):'Setter';
+  const ck2=e.length?fk(e[0],['Closer','Booked to']):'Closer';
+  const emailk=e.length?fk(e[0],['Lead Email','Email','Lead Email (same as CRM)']):'Lead Email';
+  const outk=e.length?fk(e[0],['Outcome','outcome','Brief Summary','What was the']):'Outcome';
+  const tsk=e.length?fk(e[0],['Timestamp']):'Timestamp';
+  const isRS=r=>{const o=String(r[outk]||'').toLowerCase();return o.includes('reschedul')||o.includes('rebook')||o.includes('follow up');};
+  const rsList=[...e].filter(r=>isRS(r)).reverse();
+  const showed=rsList.filter(r=>isYes(r[showk])).length;
+  const closed=rsList.filter(r=>num(r[cashk])>0).length;
+  const pending=rsList.filter(r=>!isYes(r[showk])&&num(r[cashk])===0).length;
+  const rate=rsList.length>0?((closed/rsList.length)*100).toFixed(0)+'%':'—';
+  ['rs-total','rs-showed','rs-closed','rs-rate','rs-pending'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=[rsList.length,showed,closed,rate,pending][i];});
+  const fl=document.getElementById('rsFlipper');if(fl)fl.textContent=rsList.length+' rescheduled leads';
+
+  if(charts.rsChart)charts.rsChart.destroy();
+  const rsC=document.getElementById('rsChart');
+  if(rsC&&rsList.length)charts.rsChart=new Chart(rsC,{type:'doughnut',data:{labels:['Closed','Showed','Pending'],datasets:[{data:[closed,showed-closed,pending],backgroundColor:['rgba(232,114,154,0.8)','rgba(192,132,184,0.8)','rgba(244,131,106,0.6)'],borderColor:['#e8729a','#c084b8','#f4836a'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{color:'#8a7090',font:{family:'DM Sans',size:11},padding:10,boxWidth:10}},tooltip:{backgroundColor:'#1f1424',padding:10}}}});
+
+  const setterRS=SETTERS.map(s=>rsList.filter(r=>String(r[sk2]||'').toLowerCase()===s.toLowerCase()).length);
+  if(charts.rsSetterChart)charts.rsSetterChart.destroy();
+  const rsSC=document.getElementById('rsSetterChart');
+  if(rsSC)charts.rsSetterChart=new Chart(rsSC,{type:'bar',data:{labels:SETTERS.length?SETTERS:['—'],datasets:[{data:setterRS,backgroundColor:'rgba(244,131,106,0.6)',borderColor:'#f4836a',borderWidth:1,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,180,200,0.04)'},ticks:{color:'#8a7090',font:{family:'DM Sans'}}},y:{grid:{color:'rgba(255,180,200,0.04)'},ticks:{color:'#8a7090',font:{family:'DM Sans'},stepSize:1}}}}});
+
+  const q=(document.getElementById('rsSearch')||{}).value||'';
+  const filtered=q?rsList.filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase().includes(q.toLowerCase()))):rsList;
+  const rsEl=document.getElementById('rescheduledList');
+  if(rsEl)rsEl.innerHTML=filtered.length?filtered.map(r=>`<div class="rs-card"><div class="rs-lead">${r[emailk]||'Unknown'}</div><div class="rs-meta">Setter: <b style="color:var(--lavender)">${r[sk2]||'—'}</b> · Closer: <b>${r[ck2]||'—'}</b> · <b style="color:var(--coral)">${r[outk]||'—'}</b> · ${num(r[cashk])>0?`<span style="color:var(--rose)">✓ Closed ${$f(r[cashk])}</span>`:isYes(r[showk])?'<span style="color:var(--lavender)">Showed</span>':'<span style="color:var(--muted)">Pending</span>'} · <span style="font-size:10px;color:var(--muted)">${r[tsk]||''}</span></div></div>`).join(''):'<div class="empty"><span>📅</span>No rescheduled leads yet</div>';
+  const rc=document.getElementById('rsCount');if(rc)rc.textContent=filtered.length+' results';
+
+  // Closer EOD
+  const ceodEl=document.getElementById('clsrEodTable');
+  if(ceodEl){
+    const c=eodC;
+    if(!c.length){ceodEl.innerHTML='<tr><td colspan="10"><div class="empty"><span>📋</span>No closer EOD data yet</div></td></tr>';return;}
+    const cRepk=fk(c[0],["What's your name",'Name','Closer']);
+    const cDatek=fk(c[0],['Date','date','Timestamp']);
+    const cDialsk=fk(c[0],['Outbound Dials','Dials','dials']);
+    const cBookk=fk(c[0],['Calls Booked','booked']);
+    const cShowk=fk(c[0],['Calls Showed','Showed','showed']);
+    const cClosedk=fk(c[0],['Closed Sets','Closed','closed']);
+    const cCashk=fk(c[0],['Cash Collected','Cash']);
+    const cRevk=fk(c[0],['Revenue','Rev']);
+    const cStrugk=fk(c[0],['Struggling with','Struggling']);
+    const cObjk=fk(c[0],['Common Objections','Objections']);
+    ceodEl.innerHTML=[...c].reverse().slice(0,30).map(r=>`<tr><td style="font-size:11px;color:var(--muted)">${r[cDatek]||'—'}</td><td><b>${r[cRepk]||'—'}</b></td><td>${r[cDialsk]||'—'}</td><td>${r[cBookk]||'—'}</td><td>${r[cShowk]||'—'}</td><td>${r[cClosedk]||'—'}</td><td style="color:var(--rose)">${$f(r[cCashk])}</td><td style="color:var(--lavender)">${$f(r[cRevk])}</td><td style="font-size:11px;max-width:160px;color:var(--coral)">${r[cStrugk]||'—'}</td><td style="font-size:11px;max-width:160px;color:var(--muted)">${r[cObjk]||'—'}</td></tr>`).join('');
+  }
+}
+function filterResched(){renderReschedPage();}
+
+function renderValidationPage(){
+  const eoc=F.eoc,eodC=F.eodC;
+  const cashk=eoc.length?fk(eoc[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
+  const ck2=eoc.length?fk(eoc[0],['Closer','Booked to']):'Closer';
+  const setk=eoc.length?fk(eoc[0],['Setter','Set by']):'Setter';
+  const ok=eoc.length?fk(eoc[0],['Offer Made','Offer']):'Offer Made';
+  const outk=eoc.length?fk(eoc[0],['Outcome','outcome','Brief Summary','What was the']):'Outcome';
+  const emailk=eoc.length?fk(eoc[0],['Lead Email','Email','Lead Email (same as CRM)']):'Lead Email';
+  const offerNoCash=eoc.filter(r=>isYes(r[ok])&&num(r[cashk])===0);
+  const noOutcome=eoc.filter(r=>!r[outk]||String(r[outk]).trim()===''||String(r[outk]).trim()==='-');
+  const noRep=eoc.filter(r=>(!r[ck2]||String(r[ck2]).trim()==='')&&(!r[setk]||String(r[setk]).trim()===''));
+  const mismatches=[];
+  CLOSERS.forEach(c=>{
+    const eocCash=sum(eoc.filter(r=>String(r[ck2]||'').toLowerCase()===c.toLowerCase()),cashk);
+    const eodRows=eodC.filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase()===c.toLowerCase()));
+    const eodCash=eodRows.reduce((s,r)=>s+num(r[fk(r,['Cash Collected','Cash Collected ($)'])]),0);
+    if(eodCash>0&&Math.abs(eocCash-eodCash)>50)mismatches.push({closer:c,eoc:eocCash,eod:eodCash,diff:Math.abs(eocCash-eodCash)});
+  });
+  const totalFlags=offerNoCash.length+mismatches.length+noOutcome.length+noRep.length;
+  const cleanRows=Math.max(0,eoc.length-offerNoCash.length);
+  const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  sv('vp-flags',totalFlags);sv('vp-offernocash',offerNoCash.length);sv('vp-mismatch',mismatches.length);sv('vp-nooutcome',noOutcome.length);sv('vp-clean',cleanRows);
+  const vf=document.getElementById('valFlipper');if(vf)vf.textContent=`${totalFlags} flags · ${eoc.length} rows checked`;
+  if(charts.valOverview)charts.valOverview.destroy();
+  const voC=document.getElementById('valOverviewChart');
+  if(voC)charts.valOverview=new Chart(voC,{type:'doughnut',data:{labels:['Offer/No Cash','Cash Mismatch','Missing Outcome','Missing Rep','Clean'],datasets:[{data:[offerNoCash.length,mismatches.length,noOutcome.length,noRep.length,Math.max(0,cleanRows)],backgroundColor:['rgba(244,131,106,0.7)','rgba(240,192,112,0.7)','rgba(192,132,184,0.7)','rgba(155,114,207,0.7)','rgba(126,207,176,0.5)'],borderColor:['#f4836a','#f0c070','#c084b8','#9b72cf','#7ecfb0'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{color:'#8a7090',font:{family:'DM Sans',size:11},padding:14,boxWidth:12}},tooltip:{backgroundColor:'#1f1424',padding:10}}}});
+  const vr=(label,val,sub)=>`<div class="val-row"><span>${label}</span><span style="font-weight:700;color:var(--coral)">${val}${sub?` <span style="font-size:10px;color:var(--muted)">${sub}</span>`:''}</span></div>`;
+  const oEl=document.getElementById('val-offernocash-list');if(oEl)oEl.innerHTML=offerNoCash.length?offerNoCash.map(r=>vr(r[emailk]||'Unknown','Offer/No Cash',r[ck2]||'')).join(''):'<div style="font-size:12px;color:var(--mint);padding:8px 0">✓ No issues found</div>';
+  const mEl=document.getElementById('val-mismatch-list');if(mEl)mEl.innerHTML=mismatches.length?mismatches.map(m=>`<div class="val-row"><span><b>${m.closer}</b></span><span style="font-size:11px;color:var(--coral)">EOC ${$f(m.eoc)} vs EOD ${$f(m.eod)} <b>(gap: ${$f(m.diff)})</b></span></div>`).join(''):'<div style="font-size:12px;color:var(--mint);padding:8px 0">✓ Totals match</div>';
+  const nEl=document.getElementById('val-nooutcome-list');if(nEl)nEl.innerHTML=noOutcome.length?noOutcome.slice(0,15).map(r=>`<div class="val-row"><span>${r[emailk]||'Unknown'}</span><span class="badge bc">Missing</span></div>`).join(''):'<div style="font-size:12px;color:var(--mint);padding:4px 0">✓ All rows have outcome</div>';
+  const rEl=document.getElementById('val-norep-list');if(rEl)rEl.innerHTML=noRep.length?noRep.slice(0,15).map(r=>`<div class="val-row"><span>${r[emailk]||'Unknown'}</span><span class="badge bl">No rep</span></div>`).join(''):'<div style="font-size:12px;color:var(--mint);padding:4px 0">✓ All rows have rep</div>';
+}
+
+loadAll();
+setInterval(loadAll,120000);
+</script>
+</body>
+</html>
