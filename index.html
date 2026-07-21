@@ -82,6 +82,7 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(232,114,154,.04)}
 .tr-tot td{background:var(--card2);font-weight:700;border-top:.5px solid var(--border)}
 .tr-flag td{background:rgba(240,96,128,.04)}
+.tr-cancel td{background:rgba(240,96,128,.05)}
 .gb-wrap{min-width:100px}
 .gb-track{height:5px;background:rgba(255,180,200,.08);border-radius:3px;overflow:hidden;margin-bottom:3px}
 .gb-fill{height:100%;border-radius:3px;transition:width .8s ease}
@@ -213,8 +214,8 @@ tr:hover td{background:rgba(232,114,154,.04)}
   <div class="section">
     <div class="sec-title rose">Closer Performance</div>
     <div class="card rl"><div class="tw"><table>
-      <thead><tr><th>Closer</th><th>Scheduled</th><th>Shown</th><th>Offers</th><th>Closed</th><th>Cash</th><th>Rev</th><th>Show%</th><th>Close Rate vs 30%</th></tr></thead>
-      <tbody id="ctBody"><tr><td colspan="9"><div class="loading"><div class="spin"></div></div></td></tr></tbody>
+      <thead><tr><th>Closer</th><th>Scheduled</th><th>Shown</th><th>Closed</th><th>Cash</th><th>Rev</th><th>Show%</th><th>Close Rate vs 30%</th></tr></thead>
+      <tbody id="ctBody"><tr><td colspan="8"><div class="loading"><div class="spin"></div></div></td></tr></tbody>
     </table></div></div>
   </div>
 
@@ -231,7 +232,7 @@ tr:hover td{background:rgba(232,114,154,.04)}
     <div class="card ll">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
         <div style="display:flex;align-items:center;gap:8px">
-          <input type="text" id="eocSearch" placeholder="Search lead, closer, setter..." oninput="searchEOC()" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;width:250px">
+          <input type="text" id="eocSearch" placeholder="Search prospect, closer, setter..." oninput="searchEOC()" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;width:250px">
           <span id="eocCount" style="font-size:11px;color:var(--muted)"></span>
         </div>
         <div style="display:flex;align-items:center;gap:8px">
@@ -339,7 +340,7 @@ tr:hover td{background:rgba(232,114,154,.04)}
   <div class="section">
     <div class="sec-title gold">Closed Deals — Full List</div>
     <div class="card gl"><div class="tw"><table>
-      <thead><tr><th>Lead</th><th>Closer</th><th>Setter</th><th>Offer</th><th>Cash</th><th>Rev</th><th>Date</th></tr></thead>
+      <thead><tr><th>Prospect</th><th>Closer</th><th>Setter</th><th>Offer</th><th>Cash</th><th>Rev</th><th>Date</th></tr></thead>
       <tbody id="offerTable"></tbody>
     </table></div></div>
   </div>
@@ -352,33 +353,18 @@ tr:hover td{background:rgba(232,114,154,.04)}
 <div class="content">
 
   <div class="section">
-    <div class="sec-title coral">Top Bottleneck</div>
-    <div id="topBottleneck"><div class="loading"><div class="spin"></div></div></div>
-  </div>
-
-  <div class="section">
     <div class="sec-title lavender">SDR KPIs</div>
     <div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
       <div class="kpi l"><div class="kpi-lbl">Total Sets</div><div class="kpi-val" id="ss-sets">—</div></div>
       <div class="kpi r"><div class="kpi-lbl">Top SDR</div><div class="kpi-val" id="ss-top" style="font-size:18px">—</div></div>
-      <div class="kpi mn"><div class="kpi-lbl">Avg Dials/Day</div><div class="kpi-val" id="ss-dials">—</div><div class="kpi-sub">KPI: 200/day</div></div>
-      <div class="kpi c"><div class="kpi-lbl">Show Rate</div><div class="kpi-val" id="ss-show">—</div><div class="kpi-sub">Goal: 85%</div></div>
+      <div class="kpi mn"><div class="kpi-lbl">Show Rate</div><div class="kpi-val" id="ss-show">—</div><div class="kpi-sub">Goal: 85%</div></div>
       <div class="kpi r"><div class="kpi-lbl">Cash from Sets</div><div class="kpi-val" id="ss-cash">—</div></div>
-      <div class="kpi m"><div class="kpi-lbl">Missed KPI Days</div><div class="kpi-val" id="ss-missed">—</div></div>
     </div>
   </div>
 
   <div class="section">
     <div class="sec-title lavender">SDR Cards</div>
     <div class="sdr-grid" id="sdrCards"><div class="loading"><div class="spin"></div></div></div>
-  </div>
-
-  <div class="section">
-    <div class="sec-title coral">EOD Setter Reports</div>
-    <div class="card cl"><div class="tw"><table>
-      <thead><tr><th>Date</th><th>Rep</th><th>Dials</th><th>KPI</th><th>Sets</th><th>Shows</th><th>Closes</th><th>Cash</th><th>Bottleneck</th></tr></thead>
-      <tbody id="eodSetterTable"></tbody>
-    </table></div></div>
   </div>
 
   <div class="section">
@@ -417,45 +403,25 @@ tr:hover td{background:rgba(232,114,154,.04)}
 <div id="page-resched" class="page" style="display:none">
 <div class="content">
 
-  <div class="panel-nav">
-    <div class="panel-tabs">
-      <div class="panel-tab active" onclick="switchPanel('resched','rs',this)">📅 Rescheduling Tracker</div>
-      <div class="panel-tab" onclick="switchPanel('resched','closer-eod',this)">📋 Closer EOD</div>
+  <div class="section">
+    <div class="sec-title coral">Rescheduling Tracker</div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-bottom:20px">
+      <div class="kpi c"><div class="kpi-lbl">Total Rescheduled</div><div class="kpi-val" id="rs-total">—</div></div>
+      <div class="kpi mn"><div class="kpi-lbl">Showed After RS</div><div class="kpi-val" id="rs-showed">—</div></div>
+      <div class="kpi r"><div class="kpi-lbl">Closed After RS</div><div class="kpi-val" id="rs-closed">—</div></div>
+      <div class="kpi l"><div class="kpi-lbl">RS→Close Rate</div><div class="kpi-val" id="rs-rate">—</div></div>
+      <div class="kpi m"><div class="kpi-lbl">Still Pending</div><div class="kpi-val" id="rs-pending">—</div></div>
     </div>
-    <span id="rsFlipper" style="font-size:11px;color:var(--muted)"></span>
-  </div>
-
-  <div id="resched-rs" class="panel active">
-    <div class="section">
-      <div class="sec-title coral">Rescheduling Tracker</div>
-      <div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-bottom:20px">
-        <div class="kpi c"><div class="kpi-lbl">Total Rescheduled</div><div class="kpi-val" id="rs-total">—</div></div>
-        <div class="kpi mn"><div class="kpi-lbl">Showed After RS</div><div class="kpi-val" id="rs-showed">—</div></div>
-        <div class="kpi r"><div class="kpi-lbl">Closed After RS</div><div class="kpi-val" id="rs-closed">—</div></div>
-        <div class="kpi l"><div class="kpi-lbl">RS→Close Rate</div><div class="kpi-val" id="rs-rate">—</div></div>
-        <div class="kpi m"><div class="kpi-lbl">Still Pending</div><div class="kpi-val" id="rs-pending">—</div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
-        <div class="card cl"><div style="font-size:12px;font-weight:700;margin-bottom:14px">RS Outcomes</div><div style="position:relative;height:180px"><canvas id="rsChart"></canvas></div></div>
-        <div class="card cl"><div style="font-size:12px;font-weight:700;margin-bottom:14px">Rescheduled by Setter</div><div style="position:relative;height:180px"><canvas id="rsSetterChart"></canvas></div></div>
-      </div>
-      <div class="card cl">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <input type="text" id="rsSearch" placeholder="Search lead or closer..." oninput="filterResched()" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;width:220px">
-          <span id="rsCount" style="font-size:11px;color:var(--muted)"></span>
-        </div>
-        <div id="rescheduledList"><div class="loading"><div class="spin"></div></div></div>
-      </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+      <div class="card cl"><div style="font-size:12px;font-weight:700;margin-bottom:14px">RS Outcomes</div><div style="position:relative;height:180px"><canvas id="rsChart"></canvas></div></div>
+      <div class="card cl"><div style="font-size:12px;font-weight:700;margin-bottom:14px">Rescheduled by Setter</div><div style="position:relative;height:180px"><canvas id="rsSetterChart"></canvas></div></div>
     </div>
-  </div>
-
-  <div id="resched-closer-eod" class="panel">
-    <div class="section">
-      <div class="sec-title rose">Closer EOD Reports</div>
-      <div class="card rl"><div class="tw"><table>
-        <thead><tr><th>Date</th><th>Rep</th><th>Dials</th><th>Calls Booked</th><th>Showed</th><th>Closed</th><th>Cash</th><th>Rev</th><th>Struggling With</th><th>Objections</th></tr></thead>
-        <tbody id="clsrEodTable"></tbody>
-      </table></div></div>
+    <div class="card cl">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <input type="text" id="rsSearch" placeholder="Search prospect or closer..." oninput="filterResched()" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;width:220px">
+        <span id="rsCount" style="font-size:11px;color:var(--muted)"></span>
+      </div>
+      <div id="rescheduledList"><div class="loading"><div class="spin"></div></div></div>
     </div>
   </div>
 
@@ -469,8 +435,7 @@ tr:hover td{background:rgba(232,114,154,.04)}
   <div class="panel-nav">
     <div class="panel-tabs">
       <div class="panel-tab active" onclick="switchPanel('validation','overview',this)">📊 Overview</div>
-      <div class="panel-tab" onclick="switchPanel('validation','offernc',this)">⚠️ Offer / No Cash</div>
-      <div class="panel-tab" onclick="switchPanel('validation','mismatch',this)">💰 Cash Mismatch</div>
+      <div class="panel-tab" onclick="switchPanel('validation','offernc',this)">⚠️ Show / No Cash</div>
       <div class="panel-tab" onclick="switchPanel('validation','missing',this)">📋 Missing Data</div>
     </div>
     <span id="valFlipper" style="font-size:11px;color:var(--muted)"></span>
@@ -481,9 +446,8 @@ tr:hover td{background:rgba(232,114,154,.04)}
       <div class="sec-title coral">Validation Overview</div>
       <div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:24px">
         <div class="kpi c"><div class="kpi-lbl">Total Flags</div><div class="kpi-val" id="vp-flags">—</div></div>
-        <div class="kpi c"><div class="kpi-lbl">Offer / No Cash</div><div class="kpi-val" id="vp-offernocash">—</div></div>
-        <div class="kpi l"><div class="kpi-lbl">Cash Mismatch</div><div class="kpi-val" id="vp-mismatch">—</div></div>
-        <div class="kpi m"><div class="kpi-lbl">Missing Outcome</div><div class="kpi-val" id="vp-nooutcome">—</div></div>
+        <div class="kpi c"><div class="kpi-lbl">Showed / No Cash</div><div class="kpi-val" id="vp-offernocash">—</div></div>
+        <div class="kpi m"><div class="kpi-lbl">Missing Notes</div><div class="kpi-val" id="vp-nooutcome">—</div></div>
         <div class="kpi mn"><div class="kpi-lbl">Clean Rows</div><div class="kpi-val" id="vp-clean">—</div></div>
       </div>
       <div class="card cl" style="position:relative;height:240px"><canvas id="valOverviewChart"></canvas></div>
@@ -492,15 +456,9 @@ tr:hover td{background:rgba(232,114,154,.04)}
 
   <div id="validation-offernc" class="panel">
     <div class="section">
-      <div class="sec-title coral">Offer Made / $0 Cash</div>
+      <div class="sec-title coral">Showed but $0 Cash</div>
+      <div style="margin-bottom:12px;font-size:12px;color:var(--muted)">Calls where prospect showed but no cash collected and not canceled/rescheduled</div>
       <div class="card cl" id="val-offernocash-list"></div>
-    </div>
-  </div>
-
-  <div id="validation-mismatch" class="panel">
-    <div class="section">
-      <div class="sec-title lavender">EOC vs EOD Cash Mismatch</div>
-      <div class="card ll" id="val-mismatch-list"></div>
     </div>
   </div>
 
@@ -508,7 +466,7 @@ tr:hover td{background:rgba(232,114,154,.04)}
     <div class="section">
       <div class="sec-title mauve">Missing Data</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-        <div class="card ml"><div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mauve);margin-bottom:12px">📋 Missing Outcome</div><div id="val-nooutcome-list"></div></div>
+        <div class="card ml"><div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mauve);margin-bottom:12px">📋 Missing Notes</div><div id="val-nooutcome-list"></div></div>
         <div class="card ll"><div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--lavender);margin-bottom:12px">👤 Missing Rep</div><div id="val-norep-list"></div></div>
       </div>
     </div>
@@ -519,9 +477,11 @@ tr:hover td{background:rgba(232,114,154,.04)}
 
 <script>
 const SID='1slHyhPeWvGge876w9xC1oQ8Ml1ZO2FD1vlxVJcrx47s';
-let CLOSERS=[],SETTERS=[];
-let D={eoc:[],eodC:[],eodS:[],pb:[],fu:[],bod:[]};
-let F={eoc:[],eodC:[],eodS:[],pb:[],fu:[],bod:[]};
+// Hardcoded fallbacks — auto-detection from sheet overrides these when data loads
+let CLOSERS=['Ulani'];
+let SETTERS=['Amanda','Erin'];
+let D={eoc:[],eodC:[],pb:[],fu:[],bod:[]};
+let F={eoc:[],eodC:[],pb:[],fu:[],bod:[]};
 let charts={};
 let eocPage_=1,eocFiltered_=[],fuPage_=1,fuFiltered_=[];
 const EOC_PS=6,FU_PS=6;
@@ -569,32 +529,26 @@ async function loadAll(){
       gviz('Form Responses 4'),
       gviz('Form Responses 5'),
     ]);
-    // EOD Setter — try common names
-    let eodS=[];
-    for(const name of ['SDR EOD','Setter EOD','EOD Setter','SDR Daily','Form Responses 6']){
-      const res=await gviz(name);
-      if(res.length){eodS=res;break;}
-    }
-    D={eoc,eodC,eodS,pb,fu,bod};
+    D={eoc,eodC,pb,fu,bod};
 
-    // Auto-detect reps
+    // Auto-detect reps from Closer Name / Setter Name columns
     const closerSet=new Set(),setterSet=new Set();
     eoc.forEach(r=>{
-      const c=r['Closer']||r['Closer Name']||r['Booked to']||'';
-      const s=r['Setter']||r['Setter Name']||r['Set by']||'';
-      if(c&&c.trim())closerSet.add(c.trim());
-      if(s&&s.trim())setterSet.add(s.trim());
+      const c=r['Closer Name']||r['Closer']||r['Booked to']||'';
+      const s=r['Setter Name']||r['Setter']||r['Set by']||'';
+      if(c&&String(c).trim())closerSet.add(String(c).trim());
+      if(s&&String(s).trim())setterSet.add(String(s).trim());
     });
     pb.forEach(r=>{
-      const bt=r['Booked to']||r['Closer']||'';
-      const sb=r['Set by']||r['Setter']||'';
-      if(bt&&bt.trim())closerSet.add(bt.trim());
-      if(sb&&sb.trim())setterSet.add(sb.trim());
+      const bt=r['Booked to']||r['Closer Name']||r['Closer']||'';
+      const sb=r['Set by']||r['Setter Name']||r['Setter']||'';
+      if(bt&&String(bt).trim())closerSet.add(String(bt).trim());
+      if(sb&&String(sb).trim())setterSet.add(String(sb).trim());
     });
-    CLOSERS=[...closerSet].filter(Boolean);
-    SETTERS=[...setterSet].filter(Boolean);
+    // Use detected reps if found, else keep hardcoded fallbacks
+    if(closerSet.size>0)CLOSERS=[...closerSet].filter(Boolean);
+    if(setterSet.size>0)SETTERS=[...setterSet].filter(Boolean);
 
-    // Populate dropdowns
     document.getElementById('closerOpts').innerHTML=CLOSERS.map(c=>`<option>${c}</option>`).join('');
     document.getElementById('setterOpts').innerHTML=SETTERS.map(s=>`<option>${s}</option>`).join('');
 
@@ -623,15 +577,37 @@ function applyFilters(){
     if(rep!=='all'&&!Object.values(r).some(v=>String(v||'').toLowerCase()===rep.toLowerCase()))return false;
     return true;
   });
-  F={eoc:filt(D.eoc),eodC:filt(D.eodC),eodS:filt(D.eodS),pb:filt(D.pb),fu:filt(D.fu),bod:filt(D.bod)};
+  F={eoc:filt(D.eoc),eodC:filt(D.eodC),pb:filt(D.pb),fu:filt(D.fu),bod:filt(D.bod)};
   renderAll();
 }
 
 const $f=v=>{const n=parseFloat(String(v||'').replace(/[$,]/g,'').replace(/k$/i,'000'));return isNaN(n)||n===0?'$0':'$'+n.toLocaleString();};
 const num=v=>{const n=parseFloat(String(v||'').replace(/[$,]/g,'').replace(/k$/i,'000'));return isNaN(n)?0:n;};
 const sum=(arr,k)=>arr.reduce((s,r)=>s+num(r[k]),0);
-const isYes=v=>{const s=String(v||'').toLowerCase().trim();return s==='yes'||s==='y'||s==='true'||s==='showed'||s==='attended'||s==='1'||s==='1.0'||Number(v)===1;};
+const isYes=v=>{const s=String(v||'').toLowerCase().trim();return s==='yes'||s==='y'||s==='true';};
+const showed=v=>{const s=String(v||'').toLowerCase().trim();return s==='1'||s==='1.0'||Number(v)===1||s==='yes'||s==='y'||s==='true'||s==='showed';};
 const fk=(obj,opts)=>{if(!obj)return opts[0];for(const o of opts)if(Object.hasOwn(obj,o))return o;const ks=Object.keys(obj||{});for(const o of opts){const m=ks.find(k=>k.toLowerCase().includes(o.toLowerCase().split(' ')[0]));if(m)return m;}return opts[0];};
+
+// Field-key resolvers using EXACT SCA column names first
+function K(e){
+  if(!e.length)return{};
+  return {
+    cash:fk(e[0],['Cash Collected','Cash Collected ($)','Cash']),
+    rev:fk(e[0],['Rev Generated','Rev','Revenue Generated']),
+    show:fk(e[0],['Call Show','Show Up','Show','Showed']),
+    closer:fk(e[0],['Closer Name','Closer','Booked to']),
+    setter:fk(e[0],['Setter Name','Setter','Set by']),
+    name:fk(e[0],['Prospect Name','Lead Email','Email','Prospect','Name']),
+    offer:fk(e[0],['Offer Pitched','Offer Picthed','Offer']),
+    cancelUs:fk(e[0],['Canceled by US','Cancelled by US','Canceled By US','Canceled by us']),
+    cancelPro:fk(e[0],['Cancelled By Prospect','Canceled By Prospect','Canceled by Prospect']),
+    resched:fk(e[0],['Call Rescheduled','Rescheduled']),
+    notes:fk(e[0],['Call Notes','Notes','Outcome','Brief Summary']),
+    ts:fk(e[0],['Timestamp','Date Closed','Date']),
+    callsClosed:fk(e[0],['Calls Closed','Closed']),
+    callsDue:fk(e[0],['Calls Due','Due']),
+  };
+}
 
 function offerTag(cash){
   const n=num(cash);
@@ -657,28 +633,21 @@ function renderAll(){
 function renderKPIs(){
   const e=F.eoc;
   if(!e.length){['k-cash','k-rev','k-deals','k-show','k-close','k-3k','k-1k5','k-aov','k-cps','k-noshow','k-resched','k-cancel-us','k-cancel-pro','k-flags'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='0';});return;}
-  const ck=fk(e[0],['Cash Collected','Cash Collected ($)','cash','Cash','Amount Collected']);
-  const rk=fk(e[0],['Rev Generated','Revenue Generated','Rev']);
-  const sk=fk(e[0],['Call Show','Show Up','Show','Showed']);
-  const notesK=fk(e[0],['Call Notes','Notes','Outcome','outcome','Brief Summary']);
-  const cancelUsK=fk(e[0],['Canceled by US','Cancelled by US','Canceled by us','Canceled By US']);
-  const cancelProK=fk(e[0],['Cancelled By Prospect','Canceled By Prospect','Canceled by Prospect']);
-  const reschedK=fk(e[0],['Call Rescheduled','Rescheduled','rescheduled']);
-  const tc=sum(e,ck),tr=sum(e,rk)||tc;
-  const deals=e.filter(r=>num(r[ck])>0).length;
-  // Call Show uses 1/0
-  const shown=e.filter(r=>num(r[sk])===1||isYes(r[sk])).length;
-  const showR=e.length>0?(shown/e.length)*100:0;
-  const closeR=shown>0?(deals/shown)*100:0;
-  const c3k=e.filter(r=>offerCat(r[ck])==='3k').length;
-  const c1k5=e.filter(r=>offerCat(r[ck])==='1k5').length;
+  const k=K(e);
+  const tc=sum(e,k.cash),tr=sum(e,k.rev)||tc;
+  const deals=e.filter(r=>num(r[k.cash])>0).length;
+  const shownN=e.filter(r=>showed(r[k.show])).length;
+  const showR=e.length>0?(shownN/e.length)*100:0;
+  const closeR=shownN>0?(deals/shownN)*100:0;
+  const c3k=e.filter(r=>offerCat(r[k.cash])==='3k').length;
+  const c1k5=e.filter(r=>offerCat(r[k.cash])==='1k5').length;
   const aov=deals>0?(tc/deals):0;
   const cps=e.length>0?(tc/e.length):0;
-  const noShow=e.filter(r=>num(r[sk])===0&&!isYes(r[sk])).length;
-  const resched=e.filter(r=>r[reschedK]&&String(r[reschedK]).toLowerCase()==='yes').length;
-  const cancelUs=e.filter(r=>r[cancelUsK]&&String(r[cancelUsK]).toLowerCase()==='yes').length;
-  const cancelPro=e.filter(r=>r[cancelProK]&&String(r[cancelProK]).toLowerCase()==='yes').length;
-  const flags=e.filter(r=>num(r[ck])===0&&num(r[sk])===1).length;
+  const noShow=e.filter(r=>!showed(r[k.show])).length;
+  const resched=e.filter(r=>isYes(r[k.resched])).length;
+  const cancelUs=e.filter(r=>isYes(r[k.cancelUs])).length;
+  const cancelPro=e.filter(r=>isYes(r[k.cancelPro])).length;
+  const flags=e.filter(r=>showed(r[k.show])&&num(r[k.cash])===0&&!isYes(r[k.cancelUs])&&!isYes(r[k.cancelPro])&&!isYes(r[k.resched])).length;
   const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
   sv('k-cash',$f(tc));sv('k-rev',$f(tr));sv('k-deals',deals);
   sv('k-show',showR.toFixed(0)+'%');sv('k-close',closeR.toFixed(0)+'%');
@@ -688,12 +657,11 @@ function renderKPIs(){
 }
 
 function renderTrend(){
-  const e=F.eoc;
-  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
+  const e=F.eoc;const k=K(e);
   const byDate={};
-  [...e].sort((a,b)=>new Date(a['Timestamp']||0)-new Date(b['Timestamp']||0)).forEach(r=>{
-    const d=(r['Timestamp']||'').split(' ')[0]||'?';
-    byDate[d]=(byDate[d]||0)+num(r[ck]);
+  [...e].sort((a,b)=>new Date(a[k.ts]||0)-new Date(b[k.ts]||0)).forEach(r=>{
+    const d=String(r[k.ts]||'').split(' ')[0]||'?';
+    byDate[d]=(byDate[d]||0)+num(r[k.cash]);
   });
   const dates=Object.keys(byDate);let cum=0;
   const cumData=dates.map(d=>{cum+=byDate[d];return cum;});
@@ -702,21 +670,17 @@ function renderTrend(){
 }
 
 function renderLeaderboard(){
-  const e=F.eoc;
-  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
-  const ck2=e.length?fk(e[0],['Closer Name','Closer','Booked to','closer']):'Closer';
-  const sk2=e.length?fk(e[0],['Setter Name','Setter','Set by','setter']):'Setter';
-  const showk=e.length?fk(e[0],['Call Show','Show Up','Show','Showed','Did they show','Attended']):'Show Up';
+  const e=F.eoc;const k=K(e);
   const allReps=[...new Set([...CLOSERS,...SETTERS])];
   if(!allReps.length){document.getElementById('lbSection').innerHTML='<div class="empty"><span>✨</span>No rep data yet</div>';return;}
   const stats=allReps.map(name=>{
-    const asC=e.filter(r=>String(r[ck2]||'').toLowerCase()===name.toLowerCase());
-    const asS=e.filter(r=>String(r[sk2]||'').toLowerCase()===name.toLowerCase());
-    const cash=sum(asC,ck);const setCash=sum(asS.filter(r=>num(r[ck])>0),ck);
-    const closes=asC.filter(r=>num(r[ck])>0).length;
-    const shown=asC.filter(r=>isYes(r[showk])).length;
-    const showRate=asC.length>0?(shown/asC.length)*100:0;
-    const closeRate=shown>0?(closes/shown)*100:0;
+    const asC=e.filter(r=>String(r[k.closer]||'').toLowerCase()===name.toLowerCase());
+    const asS=e.filter(r=>String(r[k.setter]||'').toLowerCase()===name.toLowerCase());
+    const cash=sum(asC,k.cash);const setCash=sum(asS.filter(r=>num(r[k.cash])>0),k.cash);
+    const closes=asC.filter(r=>num(r[k.cash])>0).length;
+    const shownN=asC.filter(r=>showed(r[k.show])).length;
+    const showRate=asC.length>0?(shownN/asC.length)*100:0;
+    const closeRate=shownN>0?(closes/shownN)*100:0;
     const isC=CLOSERS.includes(name),isS=SETTERS.includes(name);
     const comm=isC?cash*.10:setCash*.05;
     const role=isC&&isS?'Both':isC?'Closer':'Setter';
@@ -732,68 +696,59 @@ function renderLeaderboard(){
   const show=[...stats].filter(s=>CLOSERS.includes(s.name)).sort((a,b)=>b.showRate-a.showRate).map(s=>({...s,val:s.showRate,label:s.showRate.toFixed(0)+'%'}));
   const close=[...stats].filter(s=>CLOSERS.includes(s.name)).sort((a,b)=>b.closeRate-a.closeRate).map(s=>({...s,val:s.closeRate,label:s.closeRate.toFixed(0)+'%'}));
   const el=document.getElementById('lbSection');
-  if(el)el.innerHTML=mkLB('Cash Collected','var(--rose)',rev)+mkLB('Commission','var(--gold)',comm)+(show.length?mkLB('Show Rate','var(--lavender)',show):'')+close.length?mkLB('Close Rate','var(--mauve)',close):'';
+  let out=mkLB('Cash Collected','var(--rose)',rev)+mkLB('Commission','var(--gold)',comm);
+  if(show.length)out+=mkLB('Show Rate','var(--lavender)',show);
+  if(close.length)out+=mkLB('Close Rate','var(--mauve)',close);
+  if(el)el.innerHTML=out;
 }
 
 function renderCloser(){
-  const e=F.eoc;
-  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
-  const rk=e.length?fk(e[0],['Rev Generated','Revenue Generated','Rev']):'Rev Generated';
-  const sk=e.length?fk(e[0],['Call Show','Show Up','Show','Showed','Did they show','Attended']):'Show Up';
-  const ok=e.length?fk(e[0],['Calls Closed','Offer Made','Offer','Calls Closed']):'Offer Made';
-  const ck2=e.length?fk(e[0],['Closer','Booked to']):'Closer';
-  if(!CLOSERS.length){const el=document.getElementById('ctBody');if(el)el.innerHTML='<tr><td colspan="9"><div class="empty"><span>✨</span>No closer data yet</div></td></tr>';return;}
+  const e=F.eoc;const k=K(e);
+  const el=document.getElementById('ctBody');if(!el)return;
+  if(!CLOSERS.length||!e.length){el.innerHTML='<tr><td colspan="8"><div class="empty"><span>✨</span>No closer data yet</div></td></tr>';return;}
   const rows=CLOSERS.map(c=>{
-    const mine=e.filter(r=>String(r[ck2]||'').toLowerCase()===c.toLowerCase());
-    const shown=mine.filter(r=>num(r[sk])===1||isYes(r[sk])).length;
-    const offers=mine.filter(r=>isYes(r[ok])).length;
-    const closed=mine.filter(r=>num(r[ck])>0).length;
-    const cash=sum(mine,ck),rev=sum(mine,rk)||cash;
-    const sp=mine.length>0?(shown/mine.length)*100:0,cp=shown>0?(closed/shown)*100:0;
-    return{name:c,sched:mine.length,shown,offers,closed,cash,rev,sp,cp};
+    const mine=e.filter(r=>String(r[k.closer]||'').toLowerCase()===c.toLowerCase());
+    const shownN=mine.filter(r=>showed(r[k.show])).length;
+    const closed=mine.filter(r=>num(r[k.cash])>0).length;
+    const cash=sum(mine,k.cash),rev=sum(mine,k.rev)||cash;
+    const sp=mine.length>0?(shownN/mine.length)*100:0,cp=shownN>0?(closed/shownN)*100:0;
+    return{name:c,sched:mine.length,shown:shownN,closed,cash,rev,sp,cp};
   });
-  const tot=rows.reduce((t,r)=>({name:'TOTALS',sched:t.sched+r.sched,shown:t.shown+r.shown,offers:t.offers+r.offers,closed:t.closed+r.closed,cash:t.cash+r.cash,rev:t.rev+r.rev,sp:0,cp:0}),{name:'TOTALS',sched:0,shown:0,offers:0,closed:0,cash:0,rev:0,sp:0,cp:0});
+  const tot=rows.reduce((t,r)=>({name:'TOTALS',sched:t.sched+r.sched,shown:t.shown+r.shown,closed:t.closed+r.closed,cash:t.cash+r.cash,rev:t.rev+r.rev,sp:0,cp:0}),{name:'TOTALS',sched:0,shown:0,closed:0,cash:0,rev:0,sp:0,cp:0});
   tot.sp=tot.sched>0?(tot.shown/tot.sched)*100:0;tot.cp=tot.shown>0?(tot.closed/tot.shown)*100:0;
-  const rh=r=>`<tr ${r.name==='TOTALS'?'class="tr-tot"':''}><td><b>${r.name}</b></td><td>${r.sched}</td><td>${r.shown}</td><td>${r.offers}</td><td>${r.closed}</td><td style="color:var(--rose)">${$f(r.cash)}</td><td style="color:var(--lavender)">${$f(r.rev)}</td><td>${r.sp.toFixed(0)}%</td><td>${goalBar(r.cp,30)}</td></tr>`;
-  const el=document.getElementById('ctBody');if(el)el.innerHTML=[...rows,tot].map(rh).join('');
+  const rh=r=>`<tr ${r.name==='TOTALS'?'class="tr-tot"':''}><td><b>${r.name}</b></td><td>${r.sched}</td><td>${r.shown}</td><td>${r.closed}</td><td style="color:var(--rose)">${$f(r.cash)}</td><td style="color:var(--lavender)">${$f(r.rev)}</td><td>${r.sp.toFixed(0)}%</td><td>${goalBar(r.cp,30)}</td></tr>`;
+  el.innerHTML=[...rows,tot].map(rh).join('');
 }
 
 function renderSetter(){
-  const e=F.eoc,pb=F.pb;
-  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
-  const rk=e.length?fk(e[0],['Rev Generated','Revenue Generated','Rev']):'Rev Generated';
-  const sk=e.length?fk(e[0],['Call Show','Show Up','Show','Showed','Did they show','Attended']):'Show Up';
-  const setk=e.length?fk(e[0],['Setter','Set by']):'Setter';
-  const sbk=pb.length?fk(pb[0],['Set by','Set By','Setter']):'Set by';
-  if(!SETTERS.length){const el=document.getElementById('stBody');if(el)el.innerHTML='<tr><td colspan="8"><div class="empty"><span>✨</span>No setter data yet</div></td></tr>';return;}
+  const e=F.eoc,pb=F.pb;const k=K(e);
+  const sbk=pb.length?fk(pb[0],['Set by','Set By','Setter Name','Setter']):'Set by';
+  const el=document.getElementById('stBody');if(!el)return;
+  if(!SETTERS.length||!e.length){el.innerHTML='<tr><td colspan="8"><div class="empty"><span>✨</span>No setter data yet</div></td></tr>';return;}
   const rows=SETTERS.map(s=>{
-    const mine=e.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase());
+    const mine=e.filter(r=>String(r[k.setter]||'').toLowerCase()===s.toLowerCase());
     const sets=pb.filter(r=>String(r[sbk]||'').toLowerCase()===s.toLowerCase()).length||mine.length;
-    const shown=mine.filter(r=>num(r[sk])===1||isYes(r[sk])).length;
-    const closed=mine.filter(r=>num(r[ck])>0).length;
-    const cash=sum(mine,ck),rev=sum(mine,rk)||cash;
-    const scp=sets>0?(closed/sets)*100:0,shp=sets>0?(shown/sets)*100:0;
-    return{name:s,sets,shown,closed,cash,rev,scp,shp};
+    const shownN=mine.filter(r=>showed(r[k.show])).length;
+    const closed=mine.filter(r=>num(r[k.cash])>0).length;
+    const cash=sum(mine,k.cash),rev=sum(mine,k.rev)||cash;
+    const scp=sets>0?(closed/sets)*100:0,shp=sets>0?(shownN/sets)*100:0;
+    return{name:s,sets,shown:shownN,closed,cash,rev,scp,shp};
   });
   const tot=rows.reduce((t,r)=>({name:'TOTALS',sets:t.sets+r.sets,shown:t.shown+r.shown,closed:t.closed+r.closed,cash:t.cash+r.cash,rev:t.rev+r.rev,scp:0,shp:0}),{name:'TOTALS',sets:0,shown:0,closed:0,cash:0,rev:0,scp:0,shp:0});
   tot.scp=tot.sets>0?(tot.closed/tot.sets)*100:0;tot.shp=tot.sets>0?(tot.shown/tot.sets)*100:0;
   const rh=r=>`<tr ${r.name==='TOTALS'?'class="tr-tot"':''}><td><b>${r.name}</b></td><td>${r.sets}</td><td>${r.shown}</td><td>${r.closed}</td><td style="color:var(--rose)">${$f(r.cash)}</td><td style="color:var(--lavender)">${$f(r.rev)}</td><td>${r.scp.toFixed(0)}%</td><td>${goalBar(r.shp,85)}</td></tr>`;
-  const el=document.getElementById('stBody');if(el)el.innerHTML=[...rows,tot].map(rh).join('');
+  el.innerHTML=[...rows,tot].map(rh).join('');
 }
 
 function renderCharts(){
-  const e=F.eoc;
-  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
-  const ck2=e.length?fk(e[0],['Closer','Booked to']):'Closer';
-  const sk2=e.length?fk(e[0],['Setter','Set by']):'Setter';
-  const showk=e.length?fk(e[0],['Call Show','Show Up','Show','Showed','Did they show','Attended']):'Show Up';
+  const e=F.eoc;const k=K(e);
   const COLORS=['#e8729a','#c084b8','#9b72cf','#f4836a','#f0c070','#7ecfb0'];
-  const rev=CLOSERS.map(c=>sum(e.filter(r=>String(r[ck2]||'').toLowerCase()===c.toLowerCase()),ck));
+  const rev=CLOSERS.map(c=>sum(e.filter(r=>String(r[k.closer]||'').toLowerCase()===c.toLowerCase()),k.cash));
   const co={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#1f1424',padding:10}},scales:{x:{grid:{color:'rgba(255,180,200,0.04)'},ticks:{color:'#8a7090',font:{family:'DM Sans'}}},y:{grid:{color:'rgba(255,180,200,0.04)'},ticks:{color:'#8a7090',font:{family:'DM Sans'}}}}};
   if(charts.rev)charts.rev.destroy();
   charts.rev=new Chart(document.getElementById('revChart'),{type:'bar',data:{labels:CLOSERS.length?CLOSERS:['—'],datasets:[{data:rev,backgroundColor:COLORS.map(c=>c+'88'),borderColor:COLORS,borderWidth:1,borderRadius:6}]},options:{...co,scales:{...co.scales,y:{...co.scales.y,ticks:{...co.scales.y.ticks,callback:v=>'$'+v.toLocaleString()}}}}});
   const allReps=[...CLOSERS,...SETTERS.filter(s=>!CLOSERS.includes(s))];
-  const sp=allReps.map(r=>{const mine=e.filter(row=>String(row[ck2]||'').toLowerCase()===r.toLowerCase()||String(row[sk2]||'').toLowerCase()===r.toLowerCase());return mine.length>0?(mine.filter(row=>isYes(row[showk])).length/mine.length)*100:0;});
+  const sp=allReps.map(r=>{const mine=e.filter(row=>String(row[k.closer]||'').toLowerCase()===r.toLowerCase()||String(row[k.setter]||'').toLowerCase()===r.toLowerCase());return mine.length>0?(mine.filter(row=>showed(row[k.show])).length/mine.length)*100:0;});
   const sc=sp.map(v=>v>=85?'rgba(126,207,176,0.6)':v>=70?'rgba(244,131,106,0.6)':'rgba(240,96,128,0.6)');
   const sb=sp.map(v=>v>=85?'#7ecfb0':v>=70?'#f4836a':'#f06080');
   if(charts.show)charts.show.destroy();
@@ -801,68 +756,48 @@ function renderCharts(){
 }
 
 function renderCommissions(){
-  const e=F.eoc;
-  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
-  const ck2=e.length?fk(e[0],['Closer','Booked to']):'Closer';
-  const sk2=e.length?fk(e[0],['Setter','Set by']):'Setter';
+  const e=F.eoc;const k=K(e);
   const td=(v,bold,color,align='right')=>`<td style="text-align:${align};padding:8px;border-bottom:.5px solid rgba(255,180,200,.06);${color?'color:'+color+';':''}${bold?'font-weight:700;':''}">${v}</td>`;
   let ct=0;
   const closers=CLOSERS.length?CLOSERS:['No closers yet'];
-  document.getElementById('closerCommBody').innerHTML=closers.map(c=>{const mine=e.filter(r=>String(r[ck2]||'').toLowerCase()===c.toLowerCase());const cash=sum(mine,ck);const comm=cash*.10;ct+=comm;return`<tr>${td(c,true,'','left')}${td($f(cash),false,'var(--rose)')}${td($f(comm),true,'var(--gold)')}</tr>`;}).join('')+`<tr style="background:var(--card2)">${td('TOTAL',true)}${td('')}${td($f(ct),true,'var(--gold)')}</tr>`;
+  document.getElementById('closerCommBody').innerHTML=closers.map(c=>{const mine=e.filter(r=>String(r[k.closer]||'').toLowerCase()===c.toLowerCase());const cash=sum(mine,k.cash);const comm=cash*.10;ct+=comm;return`<tr>${td(c,true,'','left')}${td($f(cash),false,'var(--rose)')}${td($f(comm),true,'var(--gold)')}</tr>`;}).join('')+`<tr style="background:var(--card2)">${td('TOTAL',true)}${td('')}${td($f(ct),true,'var(--gold)')}</tr>`;
   let st=0;
   const setters=SETTERS.length?SETTERS:['No setters yet'];
-  document.getElementById('setterCommBody').innerHTML=setters.map(s=>{const mine=e.filter(r=>String(r[sk2]||'').toLowerCase()===s.toLowerCase());const cash=sum(mine.filter(r=>num(r[ck])>0),ck);const comm=cash*.05;st+=comm;return`<tr>${td(s,true,'','left')}${td($f(cash),false,'var(--rose)')}${td($f(comm),true,'var(--lavender)')}</tr>`;}).join('')+`<tr style="background:var(--card2)">${td('TOTAL',true)}${td('')}${td($f(st),true,'var(--lavender)')}</tr>`;
+  document.getElementById('setterCommBody').innerHTML=setters.map(s=>{const mine=e.filter(r=>String(r[k.setter]||'').toLowerCase()===s.toLowerCase());const cash=sum(mine.filter(r=>num(r[k.cash])>0),k.cash);const comm=cash*.05;st+=comm;return`<tr>${td(s,true,'','left')}${td($f(cash),false,'var(--rose)')}${td($f(comm),true,'var(--lavender)')}</tr>`;}).join('')+`<tr style="background:var(--card2)">${td('TOTAL',true)}${td('')}${td($f(st),true,'var(--lavender)')}</tr>`;
 }
 
-function renderEOC(){
-  const e=F.eoc;eocFiltered_=[...e].reverse();eocPage_=1;drawEOCPage();
-}
+function renderEOC(){const e=F.eoc;eocFiltered_=[...e].reverse();eocPage_=1;drawEOCPage();}
 function searchEOC(){
   const q=document.getElementById('eocSearch').value.toLowerCase().trim();
   eocFiltered_=q?[...F.eoc].reverse().filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase().includes(q))):[...F.eoc].reverse();
   eocPage_=1;drawEOCPage();
 }
-function eocPage(dir){
-  const total=Math.ceil(eocFiltered_.length/EOC_PS);
-  eocPage_=Math.min(Math.max(1,eocPage_+dir),total||1);drawEOCPage();
-}
+function eocPage(dir){const total=Math.ceil(eocFiltered_.length/EOC_PS);eocPage_=Math.min(Math.max(1,eocPage_+dir),total||1);drawEOCPage();}
 function drawEOCPage(){
   const e=eocFiltered_,el=document.getElementById('eocBody');if(!el)return;
   if(!e.length){el.innerHTML='<tr><td colspan="11"><div class="empty"><span>✨</span>No EOC data yet</div></td></tr>';return;}
   const total=Math.ceil(e.length/EOC_PS),start=(eocPage_-1)*EOC_PS,page=e.slice(start,start+EOC_PS);
-  const nameK=fk(e[0],['Prospect Name','Lead Email','Email','Prospect','Name']);
-  const ck2=fk(e[0],['Closer Name','Closer','Booked to']);
-  const sk2=fk(e[0],['Setter Name','Setter','Set by']);
-  const showK=fk(e[0],['Call Show','Show Up','Show','Showed']);
-  const cashK=fk(e[0],['Cash Collected','Cash Collected ($)','Cash']);
-  const revK=fk(e[0],['Rev Generated','Rev','Revenue Generated']);
-  const offerK=fk(e[0],['Offer Pitched','Offer Picthed','Offer']);
-  const cancelUsK=fk(e[0],['Canceled by US','Cancelled by US','Canceled By US']);
-  const cancelProK=fk(e[0],['Cancelled By Prospect','Canceled By Prospect']);
-  const reschedK=fk(e[0],['Call Rescheduled','Rescheduled']);
-  const notesK=fk(e[0],['Call Notes','Notes','Outcome','Brief Summary']);
+  const k=K(e);
   el.innerHTML=page.map(r=>{
-    const showed=num(r[showK])===1||isYes(r[showK]);
-    const cash=num(r[cashK]);
-    const canceledUs=r[cancelUsK]&&String(r[cancelUsK]).toLowerCase()==='yes';
-    const canceledPro=r[cancelProK]&&String(r[cancelProK]).toLowerCase()==='yes';
-    const rescheduled=r[reschedK]&&String(r[reschedK]).toLowerCase()==='yes';
-    const flag=showed&&cash===0&&!canceledUs&&!canceledPro&&!rescheduled;
+    const sh=showed(r[k.show]);
+    const cash=num(r[k.cash]);
+    const cUs=isYes(r[k.cancelUs]),cPro=isYes(r[k.cancelPro]),rsd=isYes(r[k.resched]);
+    const flag=sh&&cash===0&&!cUs&&!cPro&&!rsd;
     let cancelBadge='—';
-    if(canceledUs)cancelBadge='<span class="badge bred" style="font-size:10px">🚫 By Us</span>';
-    else if(canceledPro)cancelBadge='<span class="badge" style="background:rgba(255,107,107,.1);color:#ff8c8c;border:.5px solid rgba(255,107,107,.2);font-size:10px">✗ By Prospect</span>';
-    return `<tr class="${flag?'tr-flag':canceledUs||canceledPro?'tr-cancel':''}">
-      <td>${flag?'⚠️':canceledUs||canceledPro?'🚫':''}</td>
-      <td><b>${r[nameK]||'—'}</b></td>
-      <td>${r[ck2]||'—'}</td>
-      <td>${r[sk2]||'—'}</td>
-      <td>${showed?'<span class="badge bmn">✓ Yes</span>':'<span class="badge bred">No</span>'}</td>
+    if(cUs)cancelBadge='<span class="badge bred" style="font-size:10px">🚫 By Us</span>';
+    else if(cPro)cancelBadge='<span class="badge" style="background:rgba(255,140,140,.1);color:#ff8c8c;border:.5px solid rgba(255,140,140,.2);font-size:10px">✗ By Prospect</span>';
+    return `<tr class="${flag?'tr-flag':(cUs||cPro)?'tr-cancel':''}">
+      <td>${flag?'⚠️':(cUs||cPro)?'🚫':''}</td>
+      <td><b>${r[k.name]||'—'}</b></td>
+      <td>${r[k.closer]||'—'}</td>
+      <td>${r[k.setter]||'—'}</td>
+      <td>${sh?'<span class="badge bmn">✓ Yes</span>':'<span class="badge bred">No</span>'}</td>
       <td style="color:var(--rose);font-weight:${cash>0?'700':'400'}">${cash>0?$f(cash):'$0'}</td>
-      <td style="color:var(--lavender)">${$f(r[revK]||r[cashK])}</td>
-      <td style="font-size:11px">${r[offerK]||offerTag(r[cashK])}</td>
+      <td style="color:var(--lavender)">${$f(r[k.rev]||r[k.cash])}</td>
+      <td style="font-size:11px">${r[k.offer]||offerTag(r[k.cash])}</td>
       <td>${cancelBadge}</td>
-      <td>${rescheduled?'<span class="badge bc">📅 Yes</span>':'—'}</td>
-      <td style="max-width:180px;font-size:11px;color:var(--muted)">${r[notesK]||'—'}</td>
+      <td>${rsd?'<span class="badge bc">📅 Yes</span>':'—'}</td>
+      <td style="max-width:180px;font-size:11px;color:var(--muted)">${r[k.notes]||'—'}</td>
     </tr>`;
   }).join('');
   const lbl=`Page ${eocPage_} of ${total} · ${e.length} calls`;
@@ -873,9 +808,9 @@ function drawEOCPage(){
 function renderPP(){
   const pb=F.pb,el=document.getElementById('ppSection');if(!el)return;
   if(!pb.length){el.innerHTML='<div class="empty"><span>✨</span>No post-booking data yet</div>';return;}
-  const lk=fk(pb[0],['Lead Name','Lead','Name','What is the lead']);
-  const sbk=fk(pb[0],['Set by','Set By','Setter']);
-  const btk=fk(pb[0],['Booked to','Booked To','Closer']);
+  const lk=fk(pb[0],['Lead Name','Prospect Name','Lead','Name']);
+  const sbk=fk(pb[0],['Set by','Set By','Setter Name','Setter']);
+  const btk=fk(pb[0],['Booked to','Booked To','Closer Name','Closer']);
   const hwk=fk(pb[0],['How was it set','Source','how']);
   const bdk=fk(pb[0],['Budget','budget']);
   const ok=fk(pb[0],['Possible Objections','Objections','objection']);
@@ -883,15 +818,10 @@ function renderPP(){
 }
 
 function renderOfferPage(){
-  const e=F.eoc;
-  const ck=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
-  const ck2=e.length?fk(e[0],['Closer','Booked to']):'Closer';
-  const sk2=e.length?fk(e[0],['Setter','Set by']):'Setter';
-  const emailk=e.length?fk(e[0],['Lead Email','Email']):'Lead Email';
-  const datk=e.length?fk(e[0],['Timestamp','Date']):'Timestamp';
-  const n3k=e.filter(r=>offerCat(r[ck])==='3k');
-  const n1k5=e.filter(r=>offerCat(r[ck])==='1k5');
-  const cash3k=sum(n3k,ck),cash1k5=sum(n1k5,ck);
+  const e=F.eoc;const k=K(e);
+  const n3k=e.filter(r=>offerCat(r[k.cash])==='3k');
+  const n1k5=e.filter(r=>offerCat(r[k.cash])==='1k5');
+  const cash3k=sum(n3k,k.cash),cash1k5=sum(n1k5,k.cash);
   const total=n3k.length+n1k5.length;
   const dsRate=total>0?(n1k5.length/total)*100:0;
   const allCash=cash3k+cash1k5;
@@ -911,66 +841,35 @@ function renderOfferPage(){
 
   const ot=document.getElementById('offerTable');
   if(ot){
-    const closed=e.filter(r=>num(r[ck])>0);
-    ot.innerHTML=closed.length?[...closed].reverse().map(r=>`<tr><td>${r[emailk]||'—'}</td><td>${r[ck2]||'—'}</td><td>${r[sk2]||'—'}</td><td>${offerTag(r[ck])}</td><td style="color:var(--rose)">${$f(r[ck])}</td><td style="color:var(--lavender)">${$f(r[fk(r,['Rev Generated','Revenue Generated','Rev'])]||r[ck])}</td><td style="font-size:11px;color:var(--muted)">${r[datk]||'—'}</td></tr>`).join(''):'<tr><td colspan="7"><div class="empty"><span>✨</span>No closed deals yet</div></td></tr>';
+    const closed=e.filter(r=>num(r[k.cash])>0);
+    ot.innerHTML=closed.length?[...closed].reverse().map(r=>`<tr><td>${r[k.name]||'—'}</td><td>${r[k.closer]||'—'}</td><td>${r[k.setter]||'—'}</td><td>${offerTag(r[k.cash])}</td><td style="color:var(--rose)">${$f(r[k.cash])}</td><td style="color:var(--lavender)">${$f(r[k.rev]||r[k.cash])}</td><td style="font-size:11px;color:var(--muted)">${r[k.ts]||'—'}</td></tr>`).join(''):'<tr><td colspan="7"><div class="empty"><span>✨</span>No closed deals yet</div></td></tr>';
   }
 }
 
 function renderSetterPage(){
-  const eoc=F.eoc,eodS=F.eodS,pb=F.pb,bod=F.bod;
-  const setk=eoc.length?fk(eoc[0],['Setter','Set by']):'Setter';
-  const cashk=eoc.length?fk(eoc[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
-  const showk=eoc.length?fk(eoc[0],['Show Up','Show','Showed']):'Show Up';
-  const outk=eoc.length?fk(eoc[0],['Outcome','outcome','Brief Summary','What was the']):'Outcome';
-  const sbk=pb.length?fk(pb[0],['Set by','Set By','Setter']):'Set by';
-  const repk=eodS.length?fk(eodS[0],["What's your name","Rep Name",'Name','name']):"What's your name";
-  const dialsk=eodS.length?fk(eodS[0],['Dials','dials']):'Dials';
-  const datek=eodS.length?fk(eodS[0],['Date','date']):'Date';
-  const apptk=eodS.length?fk(eodS[0],['Appointments Set','Sets','sets','Appointments']):'Appointments Set';
-  const bnk=eodS.length?fk(eodS[0],['Biggest Bottleneck','Bottleneck','Feedback','feedback']):'Biggest Bottleneck';
+  const eoc=F.eoc,pb=F.pb,bod=F.bod;const k=K(eoc);
+  const sbk=pb.length?fk(pb[0],['Set by','Set By','Setter Name','Setter']):'Set by';
 
-  const txt=eoc.map(r=>String(r[outk]||'')).join(' ').toLowerCase();
-  const objTypes=['Money','Time','Partner','Fear','Think about','Already tried'];
-  const topBN=objTypes.map(t=>({t,n:(txt.match(new RegExp(t.toLowerCase(),'g'))||[]).length})).sort((a,b)=>b.n-a.n)[0];
-  const btEl=document.getElementById('topBottleneck');
-  if(btEl)btEl.innerHTML=topBN&&topBN.n>0?`<div class="bb-bubble"><div class="bb-icon">🔥</div><div><div class="bb-label">Top Bottleneck</div><div class="bb-val">${topBN.t}</div><div class="bb-sub">Mentioned ${topBN.n} times — ${((topBN.n/Math.max(eoc.length,1))*100).toFixed(0)}% of calls</div></div></div>`:'<div class="empty"><span>🔥</span>No objection data yet</div>';
-
-  const allSets=SETTERS.map(s=>({name:s,sets:pb.filter(r=>String(r[sbk]||'').toLowerCase()===s.toLowerCase()).length||eoc.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase()).length,shown:eoc.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase()&&isYes(r[showk])).length,total:eoc.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase()).length,cash:sum(eoc.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase()&&num(r[cashk])>0),cashk)}));
+  const allSets=SETTERS.map(s=>({name:s,sets:pb.filter(r=>String(r[sbk]||'').toLowerCase()===s.toLowerCase()).length||eoc.filter(r=>String(r[k.setter]||'').toLowerCase()===s.toLowerCase()).length,shown:eoc.filter(r=>String(r[k.setter]||'').toLowerCase()===s.toLowerCase()&&showed(r[k.show])).length,total:eoc.filter(r=>String(r[k.setter]||'').toLowerCase()===s.toLowerCase()).length,cash:sum(eoc.filter(r=>String(r[k.setter]||'').toLowerCase()===s.toLowerCase()&&num(r[k.cash])>0),k.cash)}));
   const topSDR=[...allSets].sort((a,b)=>b.sets-a.sets)[0];
   const totalSets=allSets.reduce((s,r)=>s+r.sets,0);
   const totalShown=allSets.reduce((s,r)=>s+r.shown,0);
   const totalSRTotal=allSets.reduce((s,r)=>s+r.total,0);
-  const totalDials=sum(eodS,dialsk);
-  const totalDays=[...new Set(eodS.map(r=>r[datek]))].filter(Boolean).length||1;
-  const avgDials=(totalDials/totalDays).toFixed(0);
-  const missedKPI=eodS.filter(r=>num(r[dialsk])>0&&num(r[dialsk])<200).length;
   const totalCash=allSets.reduce((s,r)=>s+r.cash,0);
   const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
-  sv('ss-sets',totalSets);sv('ss-top',topSDR?topSDR.name:'—');sv('ss-dials',avgDials);
+  sv('ss-sets',totalSets);sv('ss-top',topSDR?topSDR.name:'—');
   sv('ss-show',totalSRTotal>0?((totalShown/totalSRTotal)*100).toFixed(0)+'%':'—');
-  sv('ss-cash',$f(totalCash));sv('ss-missed',missedKPI);
+  sv('ss-cash',$f(totalCash));
 
   const sdrEl=document.getElementById('sdrCards');
   if(sdrEl)sdrEl.innerHTML=SETTERS.length?SETTERS.map(s=>{
-    const myEOC=eoc.filter(r=>String(r[setk]||'').toLowerCase()===s.toLowerCase());
-    const myEOD=eodS.filter(r=>String(r[repk]||'').toLowerCase()===s.toLowerCase());
+    const myEOC=eoc.filter(r=>String(r[k.setter]||'').toLowerCase()===s.toLowerCase());
     const sets=pb.filter(r=>String(r[sbk]||'').toLowerCase()===s.toLowerCase()).length||myEOC.length;
-    const shown=myEOC.filter(r=>isYes(r[showk])).length;
-    const closed=myEOC.filter(r=>num(r[cashk])>0).length;
-    const cash=sum(myEOC.filter(r=>num(r[cashk])>0),cashk);
-    const totalD=sum(myEOD,dialsk);
-    const days=[...new Set(myEOD.map(r=>r[datek]))].filter(Boolean).length||1;
-    const avgD=(totalD/days).toFixed(0);
-    const missedD=myEOD.filter(r=>num(r[dialsk])>0&&num(r[dialsk])<200).length;
-    const hitKPI=num(avgD)>=200;
-    return `<div class="sdr-card"><div class="sdr-header"><span class="sdr-name">${s}</span>${totalD>0?(hitKPI?'<span class="hit-badge">✓ KPI Hit</span>':missedD>0?'<span class="miss-badge">⚠ Missed</span>':''):'<span style="font-size:10px;color:var(--muted)">No EOD data</span>'}</div><div class="sdr-body"><div class="sdr-row"><span class="sdr-key">Total Sets</span><span class="sdr-val" style="color:var(--lavender)">${sets}</span></div><div class="sdr-row"><span class="sdr-key">Show Rate</span><span class="sdr-val">${sets>0?((shown/sets)*100).toFixed(0)+'%':'—'}</span></div><div class="sdr-row"><span class="sdr-key">Set→Close%</span><span class="sdr-val">${shown>0?((closed/shown)*100).toFixed(0)+'%':'—'}</span></div><div class="sdr-row"><span class="sdr-key">Cash Generated</span><span class="sdr-val" style="color:var(--rose)">${$f(cash)}</span></div><div class="sdr-row"><span class="sdr-key">Avg Dials/Day</span><span class="sdr-val">${num(avgD)>0?avgD:'—'} ${num(avgD)>=200?'<span class="hit-badge">✓</span>':num(avgD)>0?'<span class="miss-badge">Under 200</span>':''}</span></div><div class="sdr-row"><span class="sdr-key">Missed KPI Days</span><span class="sdr-val">${missedD>0?`<span class="miss-badge">${missedD}d</span>`:'<span class="hit-badge">✓ None</span>'}</span></div></div></div>`;
+    const shownN=myEOC.filter(r=>showed(r[k.show])).length;
+    const closed=myEOC.filter(r=>num(r[k.cash])>0).length;
+    const cash=sum(myEOC.filter(r=>num(r[k.cash])>0),k.cash);
+    return `<div class="sdr-card"><div class="sdr-header"><span class="sdr-name">${s}</span></div><div class="sdr-body"><div class="sdr-row"><span class="sdr-key">Total Sets</span><span class="sdr-val" style="color:var(--lavender)">${sets}</span></div><div class="sdr-row"><span class="sdr-key">Show Rate</span><span class="sdr-val">${sets>0?((shownN/sets)*100).toFixed(0)+'%':'—'}</span></div><div class="sdr-row"><span class="sdr-key">Set→Close%</span><span class="sdr-val">${shownN>0?((closed/shownN)*100).toFixed(0)+'%':'—'}</span></div><div class="sdr-row"><span class="sdr-key">Cash Generated</span><span class="sdr-val" style="color:var(--rose)">${$f(cash)}</span></div></div></div>`;
   }).join(''):'<div class="empty"><span>✨</span>No setter data yet</div>';
-
-  const eodEl=document.getElementById('eodSetterTable');
-  if(eodEl)eodEl.innerHTML=eodS.length?[...eodS].reverse().slice(0,50).map(r=>{
-    const d=num(r[dialsk]);const hit=d>=200;
-    return `<tr><td style="font-size:11px;color:var(--muted)">${r[datek]||'—'}</td><td><b>${r[repk]||'—'}</b></td><td>${d>0?`<b style="color:${hit?'var(--mint)':'var(--red)'}">${d}</b>`:'—'}</td><td>${d>0?(hit?'<span class="hit-badge">✓</span>':'<span class="miss-badge">✗</span>'):'—'}</td><td>${r[apptk]||'—'}</td><td>—</td><td>—</td><td style="color:var(--rose)">—</td><td style="font-size:11px;color:var(--coral)">${r[bnk]||'—'}</td></tr>`;
-  }).join(''):'<tr><td colspan="9"><div class="empty"><span>📋</span>No EOD data yet</div></td></tr>';
 
   // BOD
   const bodEl=document.getElementById('bodTable');
@@ -987,24 +886,19 @@ function renderSetterPage(){
   renderFU();
 }
 
-function renderFU(){
-  const fu=F.fu;fuFiltered_=fu;fuPage_=1;drawFUPage();
-}
+function renderFU(){const fu=F.fu;fuFiltered_=fu;fuPage_=1;drawFUPage();}
 function searchFU(){
   const q=document.getElementById('fuSearch').value.toLowerCase().trim();
   fuFiltered_=q?F.fu.filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase().includes(q))):F.fu;
   fuPage_=1;drawFUPage();
 }
-function fuPage(dir){
-  const total=Math.ceil(fuFiltered_.length/FU_PS);
-  fuPage_=Math.min(Math.max(1,fuPage_+dir),total||1);drawFUPage();
-}
+function fuPage(dir){const total=Math.ceil(fuFiltered_.length/FU_PS);fuPage_=Math.min(Math.max(1,fuPage_+dir),total||1);drawFUPage();}
 function drawFUPage(){
   const fu=fuFiltered_,el=document.getElementById('fuBody');if(!el)return;
   if(!fu.length){el.innerHTML='<tr><td colspan="5"><div class="empty"><span>✨</span>No follow-up data yet</div></td></tr>';const fc=document.getElementById('fuCount');if(fc)fc.textContent='';return;}
   const total=Math.ceil(fu.length/FU_PS),start=(fuPage_-1)*FU_PS,page=fu.slice(start,start+FU_PS);
   const repk=fk(fu[0],['Rep Name','rep name','Name','Setter']);
-  const leadk=fk(fu[0],['Lead Name','Lead','lead','Name']);
+  const leadk=fk(fu[0],['Lead Name','Lead','lead','Name','Prospect Name']);
   const desk=fk(fu[0],['Description','description','Notes']);
   const fudk=fk(fu[0],['Follow UP Date','Follow Up Date','Follow-Up Date']);
   const tsk=fk(fu[0],['Timestamp','timestamp','Date']);
@@ -1015,28 +909,19 @@ function drawFUPage(){
 }
 
 function renderReschedPage(){
-  const e=F.eoc,eodC=F.eodC;
-  const cashk=e.length?fk(e[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
-  const showk=e.length?fk(e[0],['Call Show','Show Up','Show','Showed','Did they show','Attended']):'Show Up';
-  const sk2=e.length?fk(e[0],['Setter','Set by']):'Setter';
-  const ck2=e.length?fk(e[0],['Closer','Booked to']):'Closer';
-  const emailk=e.length?fk(e[0],['Prospect Name','Lead Email','Email','Prospect','Name']):'Lead Email';
-  const outk=e.length?fk(e[0],['Call Notes','Outcome','outcome','Notes','Brief Summary','Result']):'Outcome';
-  const tsk=e.length?fk(e[0],['Timestamp']):'Timestamp';
-  const isRS=r=>{const o=String(r[outk]||'').toLowerCase();return o.includes('reschedul')||o.includes('rebook')||o.includes('follow up');};
-  const rsList=[...e].filter(r=>isRS(r)).reverse();
-  const showed=rsList.filter(r=>isYes(r[showk])).length;
-  const closed=rsList.filter(r=>num(r[cashk])>0).length;
-  const pending=rsList.filter(r=>!isYes(r[showk])&&num(r[cashk])===0).length;
+  const e=F.eoc;const k=K(e);
+  const rsList=[...e].filter(r=>isYes(r[k.resched])).reverse();
+  const showedN=rsList.filter(r=>showed(r[k.show])).length;
+  const closed=rsList.filter(r=>num(r[k.cash])>0).length;
+  const pending=rsList.filter(r=>!showed(r[k.show])&&num(r[k.cash])===0).length;
   const rate=rsList.length>0?((closed/rsList.length)*100).toFixed(0)+'%':'—';
-  ['rs-total','rs-showed','rs-closed','rs-rate','rs-pending'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=[rsList.length,showed,closed,rate,pending][i];});
-  const fl=document.getElementById('rsFlipper');if(fl)fl.textContent=rsList.length+' rescheduled leads';
+  ['rs-total','rs-showed','rs-closed','rs-rate','rs-pending'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=[rsList.length,showedN,closed,rate,pending][i];});
 
   if(charts.rsChart)charts.rsChart.destroy();
   const rsC=document.getElementById('rsChart');
-  if(rsC&&rsList.length)charts.rsChart=new Chart(rsC,{type:'doughnut',data:{labels:['Closed','Showed','Pending'],datasets:[{data:[closed,showed-closed,pending],backgroundColor:['rgba(232,114,154,0.8)','rgba(192,132,184,0.8)','rgba(244,131,106,0.6)'],borderColor:['#e8729a','#c084b8','#f4836a'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{color:'#8a7090',font:{family:'DM Sans',size:11},padding:10,boxWidth:10}},tooltip:{backgroundColor:'#1f1424',padding:10}}}});
+  if(rsC&&rsList.length)charts.rsChart=new Chart(rsC,{type:'doughnut',data:{labels:['Closed','Showed','Pending'],datasets:[{data:[closed,showedN-closed,pending],backgroundColor:['rgba(232,114,154,0.8)','rgba(192,132,184,0.8)','rgba(244,131,106,0.6)'],borderColor:['#e8729a','#c084b8','#f4836a'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{color:'#8a7090',font:{family:'DM Sans',size:11},padding:10,boxWidth:10}},tooltip:{backgroundColor:'#1f1424',padding:10}}}});
 
-  const setterRS=SETTERS.map(s=>rsList.filter(r=>String(r[sk2]||'').toLowerCase()===s.toLowerCase()).length);
+  const setterRS=SETTERS.map(s=>rsList.filter(r=>String(r[k.setter]||'').toLowerCase()===s.toLowerCase()).length);
   if(charts.rsSetterChart)charts.rsSetterChart.destroy();
   const rsSC=document.getElementById('rsSetterChart');
   if(rsSC)charts.rsSetterChart=new Chart(rsSC,{type:'bar',data:{labels:SETTERS.length?SETTERS:['—'],datasets:[{data:setterRS,backgroundColor:'rgba(244,131,106,0.6)',borderColor:'#f4836a',borderWidth:1,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,180,200,0.04)'},ticks:{color:'#8a7090',font:{family:'DM Sans'}}},y:{grid:{color:'rgba(255,180,200,0.04)'},ticks:{color:'#8a7090',font:{family:'DM Sans'},stepSize:1}}}}});
@@ -1044,60 +929,28 @@ function renderReschedPage(){
   const q=(document.getElementById('rsSearch')||{}).value||'';
   const filtered=q?rsList.filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase().includes(q.toLowerCase()))):rsList;
   const rsEl=document.getElementById('rescheduledList');
-  if(rsEl)rsEl.innerHTML=filtered.length?filtered.map(r=>`<div class="rs-card"><div class="rs-lead">${r[emailk]||'Unknown'}</div><div class="rs-meta">Setter: <b style="color:var(--lavender)">${r[sk2]||'—'}</b> · Closer: <b>${r[ck2]||'—'}</b> · <b style="color:var(--coral)">${r[outk]||'—'}</b> · ${num(r[cashk])>0?`<span style="color:var(--rose)">✓ Closed ${$f(r[cashk])}</span>`:isYes(r[showk])?'<span style="color:var(--lavender)">Showed</span>':'<span style="color:var(--muted)">Pending</span>'} · <span style="font-size:10px;color:var(--muted)">${r[tsk]||''}</span></div></div>`).join(''):'<div class="empty"><span>📅</span>No rescheduled leads yet</div>';
+  if(rsEl)rsEl.innerHTML=filtered.length?filtered.map(r=>`<div class="rs-card"><div class="rs-lead">${r[k.name]||'Unknown'}</div><div class="rs-meta">Setter: <b style="color:var(--lavender)">${r[k.setter]||'—'}</b> · Closer: <b>${r[k.closer]||'—'}</b> · ${num(r[k.cash])>0?`<span style="color:var(--rose)">✓ Closed ${$f(r[k.cash])}</span>`:showed(r[k.show])?'<span style="color:var(--lavender)">Showed</span>':'<span style="color:var(--muted)">Pending</span>'} · <span style="font-size:10px;color:var(--muted)">${r[k.ts]||''}</span></div></div>`).join(''):'<div class="empty"><span>📅</span>No rescheduled leads yet</div>';
   const rc=document.getElementById('rsCount');if(rc)rc.textContent=filtered.length+' results';
-
-  // Closer EOD
-  const ceodEl=document.getElementById('clsrEodTable');
-  if(ceodEl){
-    const c=eodC;
-    if(!c.length){ceodEl.innerHTML='<tr><td colspan="10"><div class="empty"><span>📋</span>No closer EOD data yet</div></td></tr>';return;}
-    const cRepk=fk(c[0],["What's your name",'Name','Closer']);
-    const cDatek=fk(c[0],['Date','date','Timestamp']);
-    const cDialsk=fk(c[0],['Outbound Dials','Dials','dials']);
-    const cBookk=fk(c[0],['Calls Booked','booked']);
-    const cShowk=fk(c[0],['Calls Showed','Showed','showed']);
-    const cClosedk=fk(c[0],['Closed Sets','Closed','closed']);
-    const cCashk=fk(c[0],['Cash Collected','Cash']);
-    const cRevk=fk(c[0],['Revenue','Rev']);
-    const cStrugk=fk(c[0],['Struggling with','Struggling']);
-    const cObjk=fk(c[0],['Common Objections','Objections']);
-    ceodEl.innerHTML=[...c].reverse().slice(0,30).map(r=>`<tr><td style="font-size:11px;color:var(--muted)">${r[cDatek]||'—'}</td><td><b>${r[cRepk]||'—'}</b></td><td>${r[cDialsk]||'—'}</td><td>${r[cBookk]||'—'}</td><td>${r[cShowk]||'—'}</td><td>${r[cClosedk]||'—'}</td><td style="color:var(--rose)">${$f(r[cCashk])}</td><td style="color:var(--lavender)">${$f(r[cRevk])}</td><td style="font-size:11px;max-width:160px;color:var(--coral)">${r[cStrugk]||'—'}</td><td style="font-size:11px;max-width:160px;color:var(--muted)">${r[cObjk]||'—'}</td></tr>`).join('');
-  }
 }
 function filterResched(){renderReschedPage();}
 
 function renderValidationPage(){
-  const eoc=F.eoc,eodC=F.eodC;
-  const cashk=eoc.length?fk(eoc[0],['Cash Collected','Cash Collected ($)']):'Cash Collected';
-  const ck2=eoc.length?fk(eoc[0],['Closer','Booked to']):'Closer';
-  const setk=eoc.length?fk(eoc[0],['Setter','Set by']):'Setter';
-  const ok=eoc.length?fk(eoc[0],['Offer Made','Offer']):'Offer Made';
-  const outk=eoc.length?fk(eoc[0],['Outcome','outcome','Brief Summary','What was the']):'Outcome';
-  const emailk=eoc.length?fk(eoc[0],['Prospect Name','Lead Email','Email','Prospect','Name']):'Lead Email';
-  const offerNoCash=eoc.filter(r=>isYes(r[ok])&&num(r[cashk])===0);
-  const noOutcome=eoc.filter(r=>!r[outk]||String(r[outk]).trim()===''||String(r[outk]).trim()==='-');
-  const noRep=eoc.filter(r=>(!r[ck2]||String(r[ck2]).trim()==='')&&(!r[setk]||String(r[setk]).trim()===''));
-  const mismatches=[];
-  CLOSERS.forEach(c=>{
-    const eocCash=sum(eoc.filter(r=>String(r[ck2]||'').toLowerCase()===c.toLowerCase()),cashk);
-    const eodRows=eodC.filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase()===c.toLowerCase()));
-    const eodCash=eodRows.reduce((s,r)=>s+num(r[fk(r,['Cash Collected','Cash Collected ($)'])]),0);
-    if(eodCash>0&&Math.abs(eocCash-eodCash)>50)mismatches.push({closer:c,eoc:eocCash,eod:eodCash,diff:Math.abs(eocCash-eodCash)});
-  });
-  const totalFlags=offerNoCash.length+mismatches.length+noOutcome.length+noRep.length;
+  const eoc=F.eoc;const k=K(eoc);
+  const offerNoCash=eoc.filter(r=>showed(r[k.show])&&num(r[k.cash])===0&&!isYes(r[k.cancelUs])&&!isYes(r[k.cancelPro])&&!isYes(r[k.resched]));
+  const noNotes=eoc.filter(r=>!r[k.notes]||String(r[k.notes]).trim()===''||String(r[k.notes]).trim()==='-');
+  const noRep=eoc.filter(r=>(!r[k.closer]||String(r[k.closer]).trim()==='')&&(!r[k.setter]||String(r[k.setter]).trim()===''));
+  const totalFlags=offerNoCash.length+noNotes.length+noRep.length;
   const cleanRows=Math.max(0,eoc.length-offerNoCash.length);
   const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
-  sv('vp-flags',totalFlags);sv('vp-offernocash',offerNoCash.length);sv('vp-mismatch',mismatches.length);sv('vp-nooutcome',noOutcome.length);sv('vp-clean',cleanRows);
+  sv('vp-flags',totalFlags);sv('vp-offernocash',offerNoCash.length);sv('vp-nooutcome',noNotes.length);sv('vp-clean',cleanRows);
   const vf=document.getElementById('valFlipper');if(vf)vf.textContent=`${totalFlags} flags · ${eoc.length} rows checked`;
   if(charts.valOverview)charts.valOverview.destroy();
   const voC=document.getElementById('valOverviewChart');
-  if(voC)charts.valOverview=new Chart(voC,{type:'doughnut',data:{labels:['Offer/No Cash','Cash Mismatch','Missing Outcome','Missing Rep','Clean'],datasets:[{data:[offerNoCash.length,mismatches.length,noOutcome.length,noRep.length,Math.max(0,cleanRows)],backgroundColor:['rgba(244,131,106,0.7)','rgba(240,192,112,0.7)','rgba(192,132,184,0.7)','rgba(155,114,207,0.7)','rgba(126,207,176,0.5)'],borderColor:['#f4836a','#f0c070','#c084b8','#9b72cf','#7ecfb0'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{color:'#8a7090',font:{family:'DM Sans',size:11},padding:14,boxWidth:12}},tooltip:{backgroundColor:'#1f1424',padding:10}}}});
-  const vr=(label,val,sub)=>`<div class="val-row"><span>${label}</span><span style="font-weight:700;color:var(--coral)">${val}${sub?` <span style="font-size:10px;color:var(--muted)">${sub}</span>`:''}</span></div>`;
-  const oEl=document.getElementById('val-offernocash-list');if(oEl)oEl.innerHTML=offerNoCash.length?offerNoCash.map(r=>vr(r[emailk]||'Unknown','Offer/No Cash',r[ck2]||'')).join(''):'<div style="font-size:12px;color:var(--mint);padding:8px 0">✓ No issues found</div>';
-  const mEl=document.getElementById('val-mismatch-list');if(mEl)mEl.innerHTML=mismatches.length?mismatches.map(m=>`<div class="val-row"><span><b>${m.closer}</b></span><span style="font-size:11px;color:var(--coral)">EOC ${$f(m.eoc)} vs EOD ${$f(m.eod)} <b>(gap: ${$f(m.diff)})</b></span></div>`).join(''):'<div style="font-size:12px;color:var(--mint);padding:8px 0">✓ Totals match</div>';
-  const nEl=document.getElementById('val-nooutcome-list');if(nEl)nEl.innerHTML=noOutcome.length?noOutcome.slice(0,15).map(r=>`<div class="val-row"><span>${r[emailk]||'Unknown'}</span><span class="badge bc">Missing</span></div>`).join(''):'<div style="font-size:12px;color:var(--mint);padding:4px 0">✓ All rows have outcome</div>';
-  const rEl=document.getElementById('val-norep-list');if(rEl)rEl.innerHTML=noRep.length?noRep.slice(0,15).map(r=>`<div class="val-row"><span>${r[emailk]||'Unknown'}</span><span class="badge bl">No rep</span></div>`).join(''):'<div style="font-size:12px;color:var(--mint);padding:4px 0">✓ All rows have rep</div>';
+  if(voC)charts.valOverview=new Chart(voC,{type:'doughnut',data:{labels:['Showed/No Cash','Missing Notes','Missing Rep','Clean'],datasets:[{data:[offerNoCash.length,noNotes.length,noRep.length,Math.max(0,cleanRows)],backgroundColor:['rgba(244,131,106,0.7)','rgba(192,132,184,0.7)','rgba(155,114,207,0.7)','rgba(126,207,176,0.5)'],borderColor:['#f4836a','#c084b8','#9b72cf','#7ecfb0'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{color:'#8a7090',font:{family:'DM Sans',size:11},padding:14,boxWidth:12}},tooltip:{backgroundColor:'#1f1424',padding:10}}}});
+  const vr=(label,val)=>`<div class="val-row"><span>${label}</span><span style="font-weight:700;color:var(--coral)">${val}</span></div>`;
+  const oEl=document.getElementById('val-offernocash-list');if(oEl)oEl.innerHTML=offerNoCash.length?offerNoCash.map(r=>vr(r[k.name]||'Unknown',r[k.closer]||'')).join(''):'<div style="font-size:12px;color:var(--mint);padding:8px 0">✓ No issues found</div>';
+  const nEl=document.getElementById('val-nooutcome-list');if(nEl)nEl.innerHTML=noNotes.length?noNotes.slice(0,15).map(r=>`<div class="val-row"><span>${r[k.name]||'Unknown'}</span><span class="badge bc">Missing</span></div>`).join(''):'<div style="font-size:12px;color:var(--mint);padding:4px 0">✓ All rows have notes</div>';
+  const rEl=document.getElementById('val-norep-list');if(rEl)rEl.innerHTML=noRep.length?noRep.slice(0,15).map(r=>`<div class="val-row"><span>${r[k.name]||'Unknown'}</span><span class="badge bl">No rep</span></div>`).join(''):'<div style="font-size:12px;color:var(--mint);padding:4px 0">✓ All rows have rep</div>';
 }
 
 loadAll();
