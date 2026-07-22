@@ -188,7 +188,7 @@ tr:hover td{background:rgba(232,114,154,.04)}
 
 <nav class="nav-bar">
   <div class="nav-tab active" onclick="switchPage('main',this)">💗 Dashboard</div>
-  <div class="nav-tab" onclick="switchPage('weeks',this)">🗓️ Weeks</div>
+  <div class="nav-tab" onclick="switchPage('mypay',this)">💵 My Pay</div>
   <div class="nav-tab" onclick="switchPage('offers',this)">💰 Offer Split</div>
   <div class="nav-tab" onclick="switchPage('setter',this)">📞 Setter Stats</div>
   <div class="nav-tab" onclick="switchPage('resched',this)">📅 Rescheduling</div>
@@ -303,6 +303,13 @@ tr:hover td{background:rgba(232,114,154,.04)}
   </div>
 
   <div class="section">
+    <div class="sec-title mint">Pay Periods <span style="font-size:9px;color:var(--muted);letter-spacing:1px">— WEEK ENDS SUN · PAID MON</span></div>
+    <div class="card mnl">
+      <div id="payPeriodWrap"><div class="loading"><div class="spin"></div></div></div>
+    </div>
+  </div>
+
+  <div class="section">
     <div class="sec-title gold">Payout Ledger</div>
     <div class="card gl">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
@@ -336,16 +343,33 @@ tr:hover td{background:rgba(232,114,154,.04)}
 </div>
 </div><!-- /page-main -->
 
-<!-- ══════ WEEKS ══════ -->
-<div id="page-weeks" class="page" style="display:none">
+<!-- ══════ MY PAY ══════ -->
+<div id="page-mypay" class="page" style="display:none">
 <div class="content">
+
   <div class="section">
-    <div class="sec-title rose">Weekly Scoreboard <span style="font-size:9px;color:var(--muted);letter-spacing:1px">— WEBINAR WEEKS (SUN→SUN)</span></div>
-    <div id="weeksWrap"><div class="loading"><div class="spin"></div></div></div>
-    <div id="weeksNote" style="font-size:11px;color:var(--muted);margin-top:14px"></div>
+    <div class="sec-title rose">My Pay</div>
+    <div class="card rl">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <label style="font-size:12px;color:var(--muted)">Who are you?</label>
+        <select id="mpRep" onchange="renderMyPay()" style="min-width:200px;font-size:13px;padding:9px 13px"></select>
+        <span style="font-size:11px;color:var(--muted)">Pick your name to see your commission.</span>
+      </div>
+    </div>
   </div>
+
+  <div id="mpBody"><div class="empty"><span>💵</span>Choose your name above</div></div>
+
+  <div class="section">
+    <div class="sec-title lavender">Team — Everyone's Standing</div>
+    <div class="card ll"><div class="tw"><table>
+      <thead><tr><th>Rep</th><th>Role</th><th style="text-align:right">Earned</th><th style="text-align:right">Paid</th><th style="text-align:right">Owed</th></tr></thead>
+      <tbody id="mpTeamBody"></tbody>
+    </table></div></div>
+  </div>
+
 </div>
-</div><!-- /page-weeks -->
+</div><!-- /page-mypay -->
 
 <!-- ══════ OFFER SPLIT ══════ -->
 <div id="page-offers" class="page" style="display:none">
@@ -406,28 +430,6 @@ tr:hover td{background:rgba(232,114,154,.04)}
 <!-- ══════ SETTER STATS ══════ -->
 <div id="page-setter" class="page" style="display:none">
 <div class="content">
-
-  <div class="section">
-    <div class="sec-title gold">Objection Board <span style="font-size:9px;color:var(--muted);letter-spacing:1px">— FOR CONTENT</span></div>
-    <div class="card gl">
-      <div style="font-size:11px;color:var(--muted);margin-bottom:14px">Ranked from the <b>Objections Heard</b> column of reviewed calls. This is Gigi's content queue — top objections = top content priorities.</div>
-      <div id="objectionBoard"><div class="empty"><span>🎯</span>No reviewed calls yet</div></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="sec-title lavender">Weekly Call Reviews</div>
-    <div class="card ll">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px">
-        <input type="text" id="crSearch" placeholder="Search rep, objection, note..." oninput="renderCallReviews()" style="background:var(--card2);border:.5px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;width:240px">
-        <span id="crCount" style="font-size:11px;color:var(--muted)"></span>
-      </div>
-      <div class="tw"><table>
-        <thead><tr><th>Date</th><th>Rep</th><th>Role</th><th>Rating</th><th>What Went Well</th><th>Coaching Note</th><th>Objections</th><th>Call</th><th>By</th></tr></thead>
-        <tbody id="callReviewBody"><tr><td colspan="9"><div class="empty"><span>📋</span>No reviews logged yet</div></td></tr></tbody>
-      </table></div>
-    </div>
-  </div>
 
   <div class="section">
     <div class="sec-title lavender">SDR KPIs</div>
@@ -557,8 +559,8 @@ const SID='1slHyhPeWvGge876w9xC1oQ8Ml1ZO2FD1vlxVJcrx47s';
 // Hardcoded fallbacks — auto-detection from sheet overrides these when data loads
 let CLOSERS=['Ulani'];
 let SETTERS=['Amanda','Erin'];
-let D={eoc:[],eodC:[],pb:[],fu:[],bod:[],payouts:[],reviews:[],weeks:[]};
-let F={eoc:[],eodC:[],pb:[],fu:[],bod:[],payouts:[],reviews:[],weeks:[]};
+let D={eoc:[],eodC:[],pb:[],fu:[],bod:[],payouts:[]};
+let F={eoc:[],eodC:[],pb:[],fu:[],bod:[],payouts:[]};
 let charts={};
 let eocPage_=1,eocFiltered_=[],fuPage_=1,fuFiltered_=[];
 const EOC_PS=6,FU_PS=6;
@@ -599,17 +601,15 @@ async function loadAll(){
   document.getElementById('statusBar').style.display='none';
   try{
     // Form Responses 1=FollowUp, 2=EOC, 3=EOD Closer, 4=Post Booking, 5=BOD
-    const [fu,eoc,eodC,pb,bod,payouts,reviews,weeks]=await Promise.all([
+    const [fu,eoc,eodC,pb,bod,payouts]=await Promise.all([
       gviz('Form Responses 1'),
       gviz('Form Responses 2'),
       gviz('Form Responses 3'),
       gviz('Form Responses 4'),
       gviz('Form Responses 5'),
       gviz('Payouts'),
-      gviz('Call Reviews'),
-      gviz('Weeks'),
     ]);
-    D={eoc,eodC,pb,fu,bod,payouts,reviews,weeks};
+    D={eoc,eodC,pb,fu,bod,payouts};
 
     // Auto-detect reps from Closer Name / Setter Name columns
     const closerSet=new Set(),setterSet=new Set();
@@ -657,8 +657,7 @@ function applyFilters(){
     if(rep!=='all'&&!Object.values(r).some(v=>String(v||'').toLowerCase()===rep.toLowerCase()))return false;
     return true;
   });
-  F={eoc:filt(D.eoc),eodC:filt(D.eodC),pb:filt(D.pb),fu:filt(D.fu),bod:filt(D.bod),payouts:D.payouts||[],reviews:D.reviews||[]};
-  F.weeks=D.weeks||[];
+  F={eoc:filt(D.eoc),eodC:filt(D.eodC),pb:filt(D.pb),fu:filt(D.fu),bod:filt(D.bod),payouts:D.payouts||[]};
   renderAll();
 }
 
@@ -725,8 +724,7 @@ function goalBar(val,goal){
 
 function renderAll(){
   renderKPIs();renderTrend();renderLeaderboard();
-  renderCloser();renderSetter();renderCharts();renderEOC();renderCommissions();renderPayoutLedger();renderPP();renderCallReviews();
-  renderWeeks();
+  renderCloser();renderSetter();renderCharts();renderEOC();renderCommissions();renderPayoutLedger();renderPayPeriods();renderMyPay();renderPP();
   renderOfferPage();renderSetterPage();renderReschedPage();renderValidationPage();
 }
 
@@ -1054,6 +1052,171 @@ function renderValidationPage(){
 }
 
 
+
+// ── Pay cycle: week runs Mon–Sun; that week's commission is paid the next Monday ──
+function weekStartMon(d){           // Monday 00:00 of the week containing d
+  const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  const dow=x.getDay();             // 0=Sun..6=Sat
+  const diff=(dow===0?-6:1-dow);    // Sunday belongs to the week that started last Monday
+  x.setDate(x.getDate()+diff);
+  return x;
+}
+function weekEndSun(mon){const e=new Date(mon);e.setDate(e.getDate()+6);e.setHours(23,59,59,999);return e;}
+function payDateFor(mon){const p=new Date(mon);p.setDate(p.getDate()+7);return p;} // Monday after period ends
+function fmtShort(d){return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});}
+function periodKey(d){const m=weekStartMon(d);return m.getFullYear()+'-'+String(m.getMonth()+1).padStart(2,'0')+'-'+String(m.getDate()).padStart(2,'0');}
+
+function renderPayPeriods(){
+  const wrap=document.getElementById('payPeriodWrap');
+  if(!wrap)return;
+  const e=D.eoc||[]; const k=K(e);
+  const payouts=F.payouts||D.payouts||[];
+  // bucket earned commission by pay period
+  const periods={};
+  e.forEach(r=>{
+    const d=parseDT(r[k.ts]); if(!d)return;
+    const cash=num(r[k.cash]); if(cash<=0)return;
+    const key=periodKey(d);
+    if(!periods[key]){const mon=weekStartMon(d);periods[key]={mon,end:weekEndSun(mon),pay:payDateFor(mon),closer:0,setter:0,cash:0,deals:0};}
+    const P=periods[key];
+    P.cash+=cash; P.deals++;
+    if(String(r[k.closer]||'').trim())P.closer+=cash*0.10;
+    if(String(r[k.setter]||'').trim())P.setter+=cash*0.05;
+  });
+  // total paid so far (all time) to compute what's still outstanding overall
+  const pAmtk = payouts.length?fk(payouts[0],['Amount Paid','Amount','Paid']):'Amount Paid';
+  const totalPaid = payouts.reduce((a,b)=>a+num(b[pAmtk]),0);
+  const list=Object.values(periods).sort((a,b)=>b.mon-a.mon);
+  if(!list.length){wrap.innerHTML='<div class="empty"><span>📅</span>No closed deals yet to build pay periods from</div>';return;}
+  const today=new Date();
+  let totalDue=0;
+  const rows=list.map(P=>{
+    const due=P.closer+P.setter;
+    const locked=today>P.end;                 // period has ended
+    const duePast=today>=P.pay;               // pay date reached
+    if(locked)totalDue+=due;
+    const status=!locked
+      ? '<span class="badge bl">Open — accruing</span>'
+      : duePast
+        ? '<span class="badge bred">Due now</span>'
+        : '<span class="badge bc">Locked — pay '+fmtShort(P.pay)+'</span>';
+    return `<tr>
+      <td><b>${fmtShort(P.mon)} – ${fmtShort(P.end)}</b><div style="font-size:10px;color:var(--muted)">Mon–Sun</div></td>
+      <td style="color:var(--mint);font-weight:700">${fmtShort(P.pay)}</td>
+      <td>${P.deals}</td>
+      <td style="color:var(--rose)">${$f(P.cash)}</td>
+      <td style="text-align:right">${$f(P.closer)}</td>
+      <td style="text-align:right">${$f(P.setter)}</td>
+      <td style="text-align:right;font-weight:800;color:var(--gold)">${$f(due)}</td>
+      <td>${status}</td></tr>`;
+  }).join('');
+  wrap.innerHTML=`<div class="tw"><table>
+    <thead><tr><th>Pay Period (earned)</th><th>Pay Date</th><th>Deals</th><th>Cash</th><th style="text-align:right">Closer Comm</th><th style="text-align:right">Setter Comm</th><th style="text-align:right">Total Due</th><th>Status</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:.5px solid var(--border)">
+      <div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Locked periods total</div><div style="font-size:18px;font-weight:800;color:var(--gold)">${$f(totalDue)}</div></div>
+      <div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Paid to date</div><div style="font-size:18px;font-weight:800;color:var(--mint)">${$f(totalPaid)}</div></div>
+      <div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Still outstanding</div><div style="font-size:18px;font-weight:800;color:${(totalDue-totalPaid)>0.5?'var(--red)':'var(--muted)'}">${$f(totalDue-totalPaid)}</div></div>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:10px">Week runs Mon–Sun. A period locks when Sunday passes; its commission is due the next Monday. "Open" periods are still accruing and not yet payable.</div>`;
+}
+
+
+
+function renderMyPay(){
+  const sel=document.getElementById('mpRep');
+  const body=document.getElementById('mpBody');
+  const teamBody=document.getElementById('mpTeamBody');
+  if(!sel||!body)return;
+  const e=D.eoc||[]; const k=K(e);
+  const payouts=F.payouts||D.payouts||[];
+  const people=[...new Set([...CLOSERS.map(n=>n+'|Closer'),...SETTERS.map(n=>n+'|Setter')])];
+
+  // populate dropdown once
+  if(!sel.options.length){
+    sel.innerHTML='<option value="">— select —</option>'+people.map(pk=>{
+      const [n,role]=pk.split('|');
+      return `<option value="${pk}">${n} (${role})</option>`;
+    }).join('');
+  }
+
+  const pRepk = payouts.length?fk(payouts[0],['Rep','Name','Rep Name']):'Rep';
+  const pRolek= payouts.length?fk(payouts[0],['Role','role']):'Role';
+  const pAmtk = payouts.length?fk(payouts[0],['Amount Paid','Amount','Paid']):'Amount Paid';
+  const pDatek= payouts.length?fk(payouts[0],['Date Paid','Date']):'Date Paid';
+  const pMethk= payouts.length?fk(payouts[0],['Method','Payment Method']):'Method';
+
+  const paidFor=(name,role)=>payouts.filter(pr=>{
+    const rep=String(pr[pRepk]||'').trim().toLowerCase();
+    if(rep!==name.toLowerCase())return false;
+    const rl=String(pr[pRolek]||'').trim();
+    if(!rl)return true;
+    return role==='Closer'?/closer/i.test(rl):/setter/i.test(rl);
+  });
+
+  const statsFor=(name,role)=>{
+    const field=role==='Closer'?k.closer:k.setter;
+    const rate=role==='Closer'?0.10:0.05;
+    const mine=e.filter(r=>String(r[field]||'').trim().toLowerCase()===name.toLowerCase()&&num(r[k.cash])>0);
+    const earned=mine.reduce((a,r)=>a+num(r[k.cash])*rate,0);
+    const paid=paidFor(name,role).reduce((a,pr)=>a+num(pr[pAmtk]),0);
+    return {mine,earned,paid,owed:earned-paid,rate};
+  };
+
+  // team table
+  if(teamBody){
+    const rows=people.map(pk=>{
+      const [n,role]=pk.split('|');
+      const st=statsFor(n,role);
+      if(st.earned<=0&&st.paid<=0)return '';
+      const rb=role==='Closer'?'<span class="badge br">Closer</span>':'<span class="badge bl">Setter</span>';
+      return `<tr><td><b>${n}</b></td><td>${rb}</td><td style="text-align:right;color:var(--rose)">${$f(st.earned)}</td><td style="text-align:right;color:var(--mint)">${$f(st.paid)}</td><td style="text-align:right;font-weight:700;color:${st.owed>0.5?'var(--gold)':'var(--muted)'}">${$f(st.owed)}</td></tr>`;
+    }).filter(Boolean).join('');
+    teamBody.innerHTML=rows||'<tr><td colspan="5"><div class="empty"><span>✨</span>No commission yet</div></td></tr>';
+  }
+
+  const pick=sel.value;
+  if(!pick){body.innerHTML='<div class="empty"><span>💵</span>Choose your name above to see your commission</div>';return;}
+  const [name,role]=pick.split('|');
+  const st=statsFor(name,role);
+  const pct=(st.rate*100).toFixed(0);
+
+  const dealRows=st.mine.length?[...st.mine].reverse().map(r=>{
+    const cash=num(r[k.cash]);
+    const d=parseDT(r[k.ts]);
+    let payTxt='—';
+    if(d){const mon=weekStartMon(d);payTxt=fmtShort(payDateFor(mon));}
+    return `<tr><td style="font-size:11px;color:var(--muted)">${d?fmtShort(d):'—'}</td><td><b>${r[k.name]||'—'}</b></td><td style="color:var(--rose)">${$f(cash)}</td><td style="text-align:right;font-weight:700;color:var(--gold)">${$f(cash*st.rate)}</td><td style="font-size:11px;color:var(--mint)">${payTxt}</td></tr>`;
+  }).join(''):'<tr><td colspan="5"><div class="empty"><span>✨</span>No closed deals yet</div></td></tr>';
+
+  const myPayouts=paidFor(name,role);
+  const payRows=myPayouts.length?[...myPayouts].reverse().map(pr=>
+    `<tr><td style="font-size:11px;color:var(--muted)">${pr[pDatek]||'—'}</td><td style="text-align:right;color:var(--mint);font-weight:700">${$f(pr[pAmtk])}</td><td style="font-size:11px">${pr[pMethk]||'—'}</td></tr>`
+  ).join(''):'<tr><td colspan="3"><div class="empty"><span>💸</span>No payments recorded yet</div></td></tr>';
+
+  body.innerHTML=`
+  <div class="section">
+    <div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(190px,1fr))">
+      <div class="kpi r"><div class="kpi-lbl">Earned</div><div class="kpi-val">${$f(st.earned)}</div><div class="kpi-sub">${pct}% of cash · ${st.mine.length} deal${st.mine.length===1?'':'s'}</div></div>
+      <div class="kpi mn"><div class="kpi-lbl">Paid to You</div><div class="kpi-val">${$f(st.paid)}</div><div class="kpi-sub">${myPayouts.length} payment${myPayouts.length===1?'':'s'}</div></div>
+      <div class="kpi g"><div class="kpi-lbl">Still Owed</div><div class="kpi-val">${$f(st.owed)}</div><div class="kpi-sub">${st.owed>0.5?'Outstanding':'All settled'}</div></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="sec-title gold">Your Deals</div>
+    <div class="card gl"><div class="tw"><table>
+      <thead><tr><th>Closed</th><th>Prospect</th><th>Cash</th><th style="text-align:right">Your ${pct}%</th><th>Payable</th></tr></thead>
+      <tbody>${dealRows}</tbody></table></div></div>
+  </div>
+  <div class="section">
+    <div class="sec-title mint">Payments You've Received</div>
+    <div class="card mnl"><div class="tw"><table>
+      <thead><tr><th>Date Paid</th><th style="text-align:right">Amount</th><th>Method</th></tr></thead>
+      <tbody>${payRows}</tbody></table></div></div>
+  </div>`;
+}
+
+
 function renderPayoutLedger(){
   const e=F.eoc, payouts=F.payouts||[];
   const k=K(e);
@@ -1136,68 +1299,6 @@ function renderPayoutLedger(){
   }
 }
 
-function renderCallReviews(){
-  const reviews=F.reviews||[];
-  const boardEl=document.getElementById('objectionBoard');
-  const bodyEl=document.getElementById('callReviewBody');
-  const countEl=document.getElementById('crCount');
-  if(!reviews.length){
-    if(boardEl)boardEl.innerHTML='<div class="empty"><span>🎯</span>No reviewed calls yet — add rows to the <b>Call Reviews</b> tab</div>';
-    if(bodyEl)bodyEl.innerHTML='<tr><td colspan="9"><div class="empty"><span>📋</span>No reviews logged yet</div></td></tr>';
-    if(countEl)countEl.textContent='';
-    return;
-  }
-  const dk=fk(reviews[0],['Date Reviewed','Date','Timestamp']);
-  const rk=fk(reviews[0],['Rep','Name','Rep Name']);
-  const rolek=fk(reviews[0],['Role','role']);
-  const linkk=fk(reviews[0],['Call Link','Link','Fathom','Recording']);
-  const ratek=fk(reviews[0],['Rating','rating','Score','Grade']);
-  const wwk=fk(reviews[0],['What Went Well','Went Well','Strengths','Positive']);
-  const cnk=fk(reviews[0],['Coaching Note','Coaching','Note','Improve']);
-  const objk=fk(reviews[0],['Objections Heard','Objections','Objection']);
-  const byk=fk(reviews[0],['Reviewed By','By','Reviewer']);
-  const tally={};
-  reviews.forEach(r=>{
-    String(r[objk]||'').split(/[;,]/).forEach(o=>{
-      const key=o.trim(); if(!key)return;
-      const norm=key.toLowerCase();
-      if(!tally[norm])tally[norm]={label:key,n:0};
-      tally[norm].n++;
-    });
-  });
-  const ranked=Object.values(tally).sort((a,b)=>b.n-a.n);
-  if(boardEl){
-    if(!ranked.length){
-      boardEl.innerHTML='<div class="empty"><span>🎯</span>No objections logged in reviewed calls yet</div>';
-    }else{
-      const max=ranked[0].n;
-      boardEl.innerHTML='<div style="display:flex;flex-direction:column;gap:8px">'+ranked.map((o,i)=>{
-        const pct=(o.n/max*100).toFixed(0);
-        const color=i===0?'var(--rose)':i===1?'var(--lavender)':i===2?'var(--coral)':'var(--mauve)';
-        return `<div style="display:flex;align-items:center;gap:12px"><div style="width:22px;font-weight:800;color:${color};text-align:center">${i+1}</div><div style="flex:0 0 130px;font-weight:600;font-size:13px;text-transform:capitalize">${o.label}</div><div style="flex:1"><div style="height:8px;background:rgba(255,180,200,.08);border-radius:4px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${color};border-radius:4px"></div></div></div><div style="width:70px;text-align:right;font-size:12px;color:var(--muted)">${o.n} call${o.n>1?'s':''}</div></div>`;
-      }).join('')+'</div>';
-    }
-  }
-  const q=((document.getElementById('crSearch')||{}).value||'').toLowerCase().trim();
-  const rows=q?reviews.filter(r=>Object.values(r).some(v=>String(v||'').toLowerCase().includes(q))):reviews;
-  if(bodyEl){
-    if(!rows.length){
-      bodyEl.innerHTML='<tr><td colspan="9"><div class="empty"><span>🔍</span>No matches</div></td></tr>';
-    }else{
-      bodyEl.innerHTML=[...rows].reverse().map(r=>{
-        const role=String(r[rolek]||'').trim();
-        const roleBadge=/closer/i.test(role)?'<span class="badge br">Closer</span>':/setter/i.test(role)?'<span class="badge bl">Setter</span>':(role?`<span class="badge bm">${role}</span>`:'—');
-        const objBadges=String(r[objk]||'').split(/[;,]/).map(o=>o.trim()).filter(Boolean).map(o=>`<span class="badge bc" style="margin:1px">${o}</span>`).join(' ')||'—';
-        const link=String(r[linkk]||'').trim();
-        const linkCell=link&&link.startsWith('http')?`<a href="${link}" target="_blank" style="color:var(--mint);font-size:11px">▶ Open</a>`:'—';
-        return `<tr><td style="font-size:11px;color:var(--muted)">${r[dk]||'—'}</td><td><b>${r[rk]||'—'}</b></td><td>${roleBadge}</td><td>${r[ratek]?`<span class="badge bg">${r[ratek]}</span>`:'—'}</td><td style="font-size:11px;max-width:200px">${r[wwk]||'—'}</td><td style="font-size:11px;max-width:200px;color:var(--coral)">${r[cnk]||'—'}</td><td style="max-width:160px">${objBadges}</td><td>${linkCell}</td><td style="font-size:11px;color:var(--muted)">${r[byk]||'—'}</td></tr>`;
-      }).join('');
-    }
-  }
-  if(countEl)countEl.textContent=`${rows.length} of ${reviews.length} reviews`;
-}
-
-
 
 // Robust date parse: handles gviz "Date(2026,6,3)" (month 0-indexed) and m/d/yyyy strings
 function parseDT(v){
@@ -1208,98 +1309,6 @@ function parseDT(v){
   const d=new Date(str);
   return isNaN(d)?null:d;
 }
-
-function renderWeeks(){
-  const wrap=document.getElementById('weeksWrap');
-  const note=document.getElementById('weeksNote');
-  if(!wrap)return;
-  const weeks=(F.weeks||D.weeks||[]);
-  const e=D.eoc||[];               // use full EOC, weeks do their own date bucketing
-  const k=K(e);
-  if(!weeks.length){
-    wrap.innerHTML='<div class="empty"><span>🗓️</span>No weeks defined yet — add rows to the <b>Weeks</b> tab</div>';
-    if(note)note.innerHTML='Weeks tab headers (row 1): Start · End · Cash Goal · Rev Goal. One row per webinar week (Sun→Sun). Row order = Week number.';
-    return;
-  }
-  const sk=fk(weeks[0],['Start','Start Date','From']);
-  const ek=fk(weeks[0],['End','End Date','To']);
-  const cgk=fk(weeks[0],['Cash Goal','Cash','Goal Cash']);
-  const rgk=fk(weeks[0],['Rev Goal','Revenue Goal','Rev']);
-
-  const cards=weeks.map((w,idx)=>{
-    const start=parseDT(w[sk]), end=parseDT(w[ek]);
-    if(!start||!end)return null;
-    const endInc=new Date(end); endInc.setHours(23,59,59,999);
-    const rows=e.filter(r=>{const d=parseDT(r[k.ts]); return d&&d>=start&&d<=endInc;});
-    const cashGoal=num(w[cgk]), revGoal=num(w[rgk]);
-    const cash=sum(rows,k.cash), rev=sum(rows,k.rev)||cash;
-    const shownN=rows.filter(r=>showed(r[k.show])).length;
-    const closes=rows.filter(r=>num(r[k.cash])>0).length;
-    const showRate=rows.length>0?(shownN/rows.length)*100:0;
-    const closeRate=shownN>0?(closes/shownN)*100:0;
-    // top SDR / closer by cash within this week
-    const byRole=(field)=>{
-      const map={};
-      rows.forEach(r=>{const name=String(r[field]||'').trim(); if(!name)return; if(!map[name])map[name]={cash:0,total:0,shown:0,closed:0}; map[name].cash+=num(r[k.cash]); map[name].total++; if(showed(r[k.show]))map[name].shown++; if(num(r[k.cash])>0)map[name].closed++;});
-      const top=Object.entries(map).sort((a,b)=>b[1].cash-a[1].cash)[0];
-      if(!top)return null;
-      const [name,st]=top;
-      return {name, cash:st.cash, show:st.total>0?(st.shown/st.total)*100:0, close:st.shown>0?(st.closed/st.shown)*100:0};
-    };
-    const topSDR=byRole(k.setter), topCloser=byRole(k.closer);
-    return {idx:idx+1,start,end,rows:rows.length,cash,rev,cashGoal,revGoal,showRate,closeRate,topSDR,topCloser};
-  }).filter(Boolean);
-
-  const fmtD=d=>d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  const ring=(val,goal,color,label)=>{
-    const pct=goal>0?Math.min(100,(val/goal)*100):0;
-    const circ=2*Math.PI*34;
-    const off=circ*(1-pct/100);
-    const hit=pct>=100;
-    return `<div style="display:flex;flex-direction:column;align-items:center;gap:6px">
-      <div style="position:relative;width:84px;height:84px">
-        <svg width="84" height="84" style="transform:rotate(-90deg)">
-          <circle cx="42" cy="42" r="34" fill="none" stroke="rgba(255,180,200,.1)" stroke-width="7"/>
-          <circle cx="42" cy="42" r="34" fill="none" stroke="${color}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${off}" style="transition:stroke-dashoffset 1s ease"/>
-        </svg>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:${hit?'var(--mint)':color}">${pct.toFixed(0)}%</div>
-      </div>
-      <div style="text-align:center"><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">${label}</div><div style="font-size:12px;font-weight:700">${$f(val)} <span style="color:var(--muted);font-weight:400">/ ${$f(goal)}</span></div></div>
-    </div>`;
-  };
-  const repChip=(r,accent,roleLabel)=>{
-    if(!r)return `<div style="flex:1;min-width:150px"><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px">${roleLabel}</div><div style="font-size:12px;color:var(--muted)">—</div></div>`;
-    return `<div style="flex:1;min-width:150px"><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px">${roleLabel}</div>
-      <div style="font-size:16px;font-weight:800;color:${accent}">${r.name}</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px">${$f(r.cash)} cash · ${r.show.toFixed(0)}% show · ${r.close.toFixed(0)}% close</div></div>`;
-  };
-
-  wrap.innerHTML='<div style="display:flex;flex-direction:column;gap:16px">'+cards.reverse().map(c=>`
-    <div class="card rl" style="padding:0;overflow:hidden">
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 22px;background:linear-gradient(135deg,rgba(232,114,154,.12),rgba(192,132,184,.05));border-bottom:.5px solid var(--border);flex-wrap:wrap;gap:8px">
-        <div style="display:flex;align-items:baseline;gap:12px">
-          <div style="font-size:24px;font-weight:800;background:linear-gradient(135deg,var(--rose),var(--lavender));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Week ${c.idx}</div>
-          <div style="font-size:12px;color:var(--muted)">${fmtD(c.start)} → ${fmtD(c.end)} · ${c.rows} calls</div>
-        </div>
-        <div style="display:flex;gap:20px">
-          <div style="text-align:center"><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Show Rate</div><div style="font-size:20px;font-weight:800;color:${c.showRate>=85?'var(--mint)':'var(--coral)'}">${c.showRate.toFixed(0)}%</div></div>
-          <div style="text-align:center"><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Close Rate</div><div style="font-size:20px;font-weight:800;color:${c.closeRate>=30?'var(--mint)':'var(--coral)'}">${c.closeRate.toFixed(0)}%</div></div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:24px;padding:20px 22px;flex-wrap:wrap">
-        <div style="display:flex;gap:14px">
-          ${ring(c.cash,c.cashGoal,'var(--rose)','Cash Goal')}
-          ${ring(c.rev,c.revGoal,'var(--lavender)','Rev Goal')}
-        </div>
-        <div style="flex:1;display:flex;gap:20px;flex-wrap:wrap;min-width:280px;padding-left:8px;border-left:.5px solid var(--border)">
-          ${repChip(c.topCloser,'var(--rose)','🏆 Top Closer')}
-          ${repChip(c.topSDR,'var(--lavender)','🎯 Top SDR')}
-        </div>
-      </div>
-    </div>`).join('')+'</div>';
-  if(note)note.innerHTML=`${cards.length} week(s) defined. Newest first. Reps ranked by cash collected within each week. Edit the <b>Weeks</b> tab to add weeks or change goals.`;
-}
-
 
 loadAll();
 setInterval(loadAll,120000);
