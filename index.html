@@ -340,7 +340,7 @@ tr:hover td{background:rgba(232,114,154,.04)}
 <div id="page-weeks" class="page" style="display:none">
 <div class="content">
   <div class="section">
-    <div class="sec-title rose">Weekly Scoreboard <span style="font-size:9px;color:var(--muted);letter-spacing:1px">— WEBINAR WEEKS (THU→THU)</span></div>
+    <div class="sec-title rose">Weekly Scoreboard <span style="font-size:9px;color:var(--muted);letter-spacing:1px">— WEBINAR WEEKS (SUN→SUN)</span></div>
     <div id="weeksWrap"><div class="loading"><div class="spin"></div></div></div>
     <div id="weeksNote" style="font-size:11px;color:var(--muted);margin-top:14px"></div>
   </div>
@@ -1218,7 +1218,7 @@ function renderWeeks(){
   const k=K(e);
   if(!weeks.length){
     wrap.innerHTML='<div class="empty"><span>🗓️</span>No weeks defined yet — add rows to the <b>Weeks</b> tab</div>';
-    if(note)note.innerHTML='Weeks tab headers (row 1): Start · End · Cash Goal · Rev Goal. One row per webinar week (Thu→Thu). Row order = Week number.';
+    if(note)note.innerHTML='Weeks tab headers (row 1): Start · End · Cash Goal · Rev Goal. One row per webinar week (Sun→Sun). Row order = Week number.';
     return;
   }
   const sk=fk(weeks[0],['Start','Start Date','From']);
