@@ -521,13 +521,20 @@ async function loadAll(){
   document.getElementById('upd').textContent='Loading...';
   document.getElementById('statusBar').style.display='none';
   try{
-    // Form Responses 1=FollowUp, 2=EOC, 3=EOD Closer, 4=Post Booking, 5=BOD
+    // Tab names — try underscore format (Form_Responses2) and space format
+    async function tryTabs(names){
+      for(const n of names){
+        const res=await gviz(n);
+        if(res.length)return res;
+      }
+      return [];
+    }
     const [fu,eoc,eodC,pb,bod]=await Promise.all([
-      gviz('Form Responses 1'),
-      gviz('Form Responses 2'),
-      gviz('Form Responses 3'),
-      gviz('Form Responses 4'),
-      gviz('Form Responses 5'),
+      tryTabs(['Form Responses 1','Form_Responses1','Form_Responses 1']),
+      tryTabs(['Form Responses 2','Form_Responses2','Form_Responses 2']),
+      tryTabs(['Form Responses 3','Form_Responses3','Form_Responses 3']),
+      tryTabs(['Form Responses 4','Form_Responses4','Form_Responses 4']),
+      tryTabs(['Form Responses 5','Form_Responses5','Form_Responses 5']),
     ]);
     D={eoc,eodC,pb,fu,bod};
     if(eoc.length){console.log('EOC columns:',Object.keys(eoc[0]));console.log('First EOC row:',eoc[0]);}
