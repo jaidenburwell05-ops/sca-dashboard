@@ -530,6 +530,7 @@ async function loadAll(){
       gviz('Form Responses 5'),
     ]);
     D={eoc,eodC,pb,fu,bod};
+    if(eoc.length){console.log('EOC columns:',Object.keys(eoc[0]));console.log('First EOC row:',eoc[0]);}
 
     // Auto-detect reps from Closer Name / Setter Name columns
     const closerSet=new Set(),setterSet=new Set();
@@ -582,11 +583,29 @@ function applyFilters(){
 }
 
 const $f=v=>{const n=parseFloat(String(v||'').replace(/[$,]/g,'').replace(/k$/i,'000'));return isNaN(n)||n===0?'$0':'$'+n.toLocaleString();};
-const num=v=>{const n=parseFloat(String(v||'').replace(/[$,]/g,'').replace(/k$/i,'000'));return isNaN(n)?0:n;};
+const num=v=>{
+  if(v==null)return 0;
+  let s=String(v).trim();
+  if(s===''||s.toLowerCase()==='n/a'||s.toLowerCase()==='na'||s==='-')return 0;
+  s=s.replace(/[$,\s]/g,'');
+  if(/k$/i.test(s))s=s.replace(/k$/i,'')*1000;
+  const n=parseFloat(s);
+  return isNaN(n)?0:n;
+};
 const sum=(arr,k)=>arr.reduce((s,r)=>s+num(r[k]),0);
 const isYes=v=>{const s=String(v||'').toLowerCase().trim();return s==='yes'||s==='y'||s==='true';};
 const showed=v=>{const s=String(v||'').toLowerCase().trim();return s==='1'||s==='1.0'||Number(v)===1||s==='yes'||s==='y'||s==='true'||s==='showed';};
-const fk=(obj,opts)=>{if(!obj)return opts[0];for(const o of opts)if(Object.hasOwn(obj,o))return o;const ks=Object.keys(obj||{});for(const o of opts){const m=ks.find(k=>k.toLowerCase().includes(o.toLowerCase().split(' ')[0]));if(m)return m;}return opts[0];};
+const fk=(obj,opts)=>{
+  if(!obj)return opts[0];
+  const ks=Object.keys(obj||{});
+  // exact match
+  for(const o of opts){const m=ks.find(k=>k.trim().toLowerCase()===o.trim().toLowerCase());if(m)return m;}
+  // contains match
+  for(const o of opts){const m=ks.find(k=>k.trim().toLowerCase().includes(o.trim().toLowerCase()));if(m)return m;}
+  // first-word fuzzy
+  for(const o of opts){const fw=o.toLowerCase().split(' ')[0];const m=ks.find(k=>k.trim().toLowerCase().includes(fw));if(m)return m;}
+  return opts[0];
+};
 
 // Field-key resolvers using EXACT SCA column names first
 function K(e){
